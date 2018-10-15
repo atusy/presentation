@@ -1,0 +1,77 @@
+@font-face {
+   font-family: 'Noto Sans JP';
+   font-style: normal;
+   font-weight: 400;
+   src: local("Noto Sans CJK JP"),
+        url(//fonts.gstatic.com/ea/notosansjp/v5/NotoSansJP-Regular.woff2) format('woff2'),
+        url(//fonts.gstatic.com/ea/notosansjp/v5/NotoSansJP-Regular.woff) format('woff'),
+        url(//fonts.gstatic.com/ea/notosansjp/v5/NotoSansJP-Regular.otf) format('opentype');
+}
+
+.reveal .slides section .no-column {
+  width: 99%;
+}
+.reveal .slides section .left {
+  float: left;
+  width: 49%;
+}
+.reveal .slides section .right {
+  float: right;
+  width: 49%;
+}
+
+.reveal section img { border:none }
+
+
+.reveal h1 {
+  margin: 0 0 10 0;
+  color: #EFEFEF;
+  font-size: 1.7em;
+  font-family: 'Noto Sans JP', "Yu Gothic", "Yu Gothic";
+  line-height: 1em ;
+  letter-spacing: 0;
+  text-transform: none;
+  text-shadow: none; }
+  
+.reveal h2{
+  margin: 0 0 10 0;
+  color: #EFEFEF;
+  font-size: 1.5em;
+  font-family: 'Noto Sans JP', "Yu Gothic", "Yu Gothic";
+  line-height: 1em ;
+  letter-spacing: 0;
+  text-transform: none;
+  text-shadow: none; }
+  
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  margin: 0 0 10 0;
+  color: #EFEFEF;
+  font-family: 'Noto Sans JP', "Yu Gothic", "Yu Gothic";
+  line-height: 1em ;
+  letter-spacing: 0;
+  text-transform: none;
+  text-shadow: none; }
+ 
+
+.reveal {
+  font-family: 'Noto Sans JP', "Yu Gothic", "Yu Gothic";
+}
+
+.reveal section img {
+  margin: 0 0;
+  border: none;
+  box-shadow: none; 
+  background: none;
+}
+
+.reveal sub, 
+.reveal sup {
+  font-size: 75%;
+}
+
+.reveal strong {
+  color: #AA0000;
+}

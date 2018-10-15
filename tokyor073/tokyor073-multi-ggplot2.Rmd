@@ -1,0 +1,697 @@
+---
+title: |
+  | ggplot2で図を並べる
+  | <span style = 'font-size: 50%'>〜facetごり押した私とpatchworkとの出会い〜</span>
+output:
+  revealjs::revealjs_presentation:
+    center: true
+    theme: night
+    reveal_options:
+      slideNumber: true
+    css: style.css
+    self_contained: false
+---
+
+```{r setup, include = FALSE}
+library(tidyverse)
+library(patchwork)
+library(knitr)
+opts_chunk$set(dev = 'CairoSVG', fig.show = 'hold', cache = TRUE, message = FALSE)
+formals(stat_bin)$bins <- 30
+assign
+```
+
+# 自己紹介
+
+## Atusy
+
+- R一筋5年
+    - データ可視化の効率化がきっかけ
+    - Tidyverse歴3年くらい
+    - JuliaとかPythonとかやるやる詐欺してます
+- Tokyo R は #72 以来2回目
+- (株) 蒜山地質年代学研究所
+    - 地質試料の化学分析
+    - データ解析用Rパッケージ開発
+
+Blog: https://atusy.github.io/blog/
+
+# 色々な図の並べ方
+
+## ヒストグラムを並べる
+
+```{r, echo = FALSE, message = FALSE}
+mtcars %>%
+  transmute(
+    `Mile / Gallon` = mpg,
+    Engine = c('V-shaped', 'Straight')[vs + 1],
+    facet = Engine
+  ) %>%
+  bind_rows(mutate(., facet = 'All')) %>%
+  ggplot(aes(`Mile / Gallon`, fill = Engine)) +
+  geom_histogram() +
+  ylab('Frequency of') +
+  facet_grid(facet ~ ., switch = 'y') +
+  theme_classic() +
+  theme(
+    strip.background = element_blank(),
+    strip.placement = 'outside'
+  ) +
+  NULL
+```
+
+## 散布図を並べる
+
+```{r, echo = FALSE}
+mtcars %>%
+  transmute(
+    mpg, wt, hp,
+    Engine = c('V-shaped', 'Straight')[vs + 1]
+  ) %>%
+  gather(x_var, x_val, -mpg, -Engine) %>%
+  mutate(x_var = c(wt = 'Weight (1000lbs)', hp = 'Horse power')[x_var]) %>%
+  ggplot(aes(x_val, mpg, color = Engine)) +
+  geom_point() +
+  facet_grid(. ~ x_var, scales = 'free', switch = 'x') +
+  ylab('Mile / Gallon') +
+  theme_dark() +
+  theme(
+    strip.background = element_blank(),
+    strip.placement = 'outside',
+    strip.text.x = element_text(size = 11, color = 'black'),
+    axis.title.x = element_blank()
+  )
+```
+
+
+## ヒストグラムと散布図を並べる
+
+```{r, echo = FALSE, message = FALSE}
+d <- mtcars %>%
+  transmute(wt, hp, Engine = c('V-shaped', 'Straight')[vs + 1])
+g1 <- ggplot(d, aes(hp, wt, color = Engine)) +
+  geom_point() +
+  xlab('Horse power') +
+  ylab('Weight (1000lbs)') + 
+  xlim(0, 350)
+g2 <- ggplot(d, aes(hp, fill = Engine)) +
+  geom_histogram() +
+  xlab('Horse power') +
+  ylab('Frequency') + 
+  xlim(0, 350)
+g1 / g2
+```
+
+## graphics::plotで並べる
+
+```{r, echo = FALSE, dev = 'png'}
+par(bg = 'white', mfrow=c(2, 1))
+plot(wt ~ hp, data = d, xlab = 'Horse power', ylab = 'Weight (1000lbs)', xlim = c(50, 350), bty='n')
+hist(d$hp, breaks = 30, main = NULL, xlab = 'Horse power', xlim = c(50, 350))
+# 力尽きた。色分けや色分けに伴う凡例、ヒストグラムの積み重ね……。
+```
+
+
+# 今日使うデータセット <br> `mtcars` and their friends
+
+## Motor Trend Car Road Tests
+
+```{r}
+str(mtcars)
+```
+
+(Henderson and Velleman, 1981)
+
+## `?mtcars` によると
+
+- **mpg**: mile / gallon
+- cyl: シリンダー数
+- disp: 排気量
+- **hp**: 馬力
+- drat: 後輪車軸比
+- **wt**: 重量(1000 lbs)
+- qsec: 走行時間(1/4mile)
+- **vs**: 0 = V型, 1 = 直列
+- **am**: 0 = オートマ, 1 = マニュアル
+- gear: ギア数
+- carb: キャブレター数
+
+## データ整形 (mtcars → minicars)
+
+- 列選択 (mpg, hp, wt, vs, am)
+- 2値データを文字列に変換 (vs, am)
+
+```{r}
+# A modern approach
+library(dplyr)
+minicars <- mtcars %>%
+  select(mpg, wt, hp, vs, am) %>%
+  mutate(
+    vs = c('V-shaped', 'Straight')[vs + 1],
+    am = c('Automatic', 'Manual')[am + 1]
+  )
+```
+
+```{r eval = FALSE}
+# A classic approach
+minicars <- mtcars[c('mpg', 'wt', 'hp')]
+minicars$vs <- ifelse(mtcars$vs == 1, 'Straight', 'V-shaped')
+minicars$am <- ifelse(mtcars$am == 1, 'Manual', 'Automatic')
+```
+
+## データ整形 (minicars → longcars)
+
+```{r}
+library(tidyr)
+longcars <- gather(minicars, key = var, value = val, -am, -vs, -mpg)
+```
+
+<div class = 'left' />
+
+wide format  
+`spread(long, key, value)`
+
+```{r, echo = FALSE}
+wide <- data.frame(
+  a = c('a', 'b'),
+  x1 = 1:2,
+  x2 = 3:4
+)
+kable(wide)
+```
+
+</div>
+
+<div class = 'right' />
+
+long format  
+`gather(wide, key, value, -a)`
+
+```{r, echo = FALSE}
+kable(gather(wide, key, value, -a))
+```
+
+</div>
+
+
+
+
+## longcarsはこんな感じ
+
+```{r}
+library(summarytools)
+longcars %>%
+  dfSummary(
+    graph.col = FALSE, varnumbers = FALSE, valid.col = FALSE, omit.heading = TRUE
+  ) %>%
+  view(method = 'render', report.title = NA, footnote = NA)
+```
+
+
+# ggplot2基礎
+
+## ヒストグラム
+
+```{r, fig.height = 3, message = FALSE}
+library(ggplot2)
+ggplot(
+  data = minicars, # プロットしたいデータフレーム
+  mapping = aes(
+    x = mpg, # ヒストグラムにしたい変数
+    fill = vs # 棒の塗り分けに使いたい変数 (オプション)
+  ) 
+) +
+  geom_histogram() # ヒストグラムを描写
+```
+
+
+
+## 散布図
+
+```{r, fig.height = 3}
+ggplot(minicars, aes(x = wt, y = mpg, color = vs)) +
+  geom_point() # 散布図を描写
+# `data` と `mapping`の引数名は省略することが多い
+```
+
+## テーマ変更: `theme_classic()`
+
+```{r, fig.height = 3}
+last_plot() + # 直前のプロット
+  theme_classic() # テーマの変更
+```
+
+## テーマ変更: `theme_gray()`
+
+```{r, fig.height = 3}
+last_plot() + # 直前のプロット
+  theme_gray() # テーマの変更
+```
+
+
+## テーマを更に弄る
+
+`?theme` 参照……。
+
+# `facet_grid` {#facet-grid-intro}
+
+## 注目する変数でグラフを表形式に分割
+
+```{r, fig.height = 3}
+ggplot(minicars, aes(x = wt, y = mpg)) + geom_point() +
+  facet_grid(vs ~ am) # or facet_grid(vars(vs), vars(am))
+```
+
+## データ整形は大事
+
+```{r, fig.height = 3}
+ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point() +
+  facet_grid(vs ~ am)
+```
+
+V型エンジンのMT車はどれ？
+
+## 審美的属性 (色や形) での表現も忘れずに
+
+```{r, fig.height = 3}
+ggplot(minicars, aes(x = wt, y = mpg, colour = vs, shape = am)) +
+  geom_point(size = 4)
+```
+
+## 行で分割
+
+```{r, fig.height = 3}
+ggplot(minicars, aes(x = wt, y = mpg)) + geom_point() +
+  facet_grid(vs ~ .) # or facet_grid(rows = vars(vs))
+```
+
+## 列で分割
+
+```{r, fig.height = 3}
+ggplot(minicars, aes(x = wt, y = mpg)) + geom_point() +
+  facet_grid(. ~ vs + am) # or facet_grid(cols = vars(vs, am))
+```
+
+行内・列内で複数の変数を使った分割も可能
+
+# 1次元データのグラフで`facet_grid` {#facet-grid-1d}
+
+## ヒストグラムを系列ごとに分割
+
+```{r, message = FALSE, fig.height = 3}
+ggplot(minicars, aes(x = mpg)) +
+  geom_histogram() +
+  facet_grid(vs ~ .)
+```
+
+
+## ヒストグラムを変数ごと系列ごとに分割
+
+```{r, fig.height = 3, message = FALSE}
+ggplot(longcars, aes(x = val)) +
+  geom_histogram() +
+  facet_grid(vs ~ var) 
+```
+
+## `scales = 'free_x'` でx軸の範囲を可変に
+
+```{r, fig.height = 3, message = FALSE}
+last_plot() + facet_grid(vs ~ var, scales = 'free_x') 
+# scalesは'fixed' (規定値), 'free_x', 'free_y', 'free'のいずれか
+```
+
+
+直列型はV型より低馬力で軽量
+
+## stripの位置を`switch = 'both'`
+
+```{r, fig.height = 3, message = FALSE}
+last_plot() + facet_grid(vs ~ var, scales = 'free_x', switch = 'both') 
+# switchはNULL (既定値), 'x', 'y', 'both'のいずれか
+```
+
+## stripを目盛の外側へ {#strip.placement}
+
+```{r, fig.height = 3, message = FALSE}
+last_plot() + theme(strip.placement = 'outside')
+# strip.placementは'inside' (既定値) か 'outside'
+```
+
+## stripの背景をなくす {#strip.background}
+
+```{r, fig.height = 3, message = FALSE}
+last_plot() + theme(strip.background = element_blank())
+```
+
+## x軸stripのフォントサイズを変更 {#strip.text.x}
+
+```{r, fig.height = 3, message = FALSE}
+last_plot() + theme(strip.text.x = element_text(size = 11))
+```
+
+## x軸のタイトルを消す {#axis.title.x}
+
+```{r, fig.height = 3, message = FALSE}
+last_plot() + theme(axis.title.x = element_blank())
+```
+
+## 一気に
+
+```{r, fig.height = 3, message = FALSE}
+ggplot(longcars, aes(x = val)) +
+  geom_histogram() +
+  facet_grid(vs ~ var, scales = 'free_x', switch = 'both') +
+  theme(
+    strip.placement = 'outside',
+    strip.background = element_blank(),
+    strip.text.x = element_text(size = 11),
+    axis.title.x = element_blank()
+  )
+```
+
+
+# 2次元データのグラフでfacet_grid {#facet-grid-2d}
+
+## x軸を固定してy軸を変える
+
+```{r, fig.height = 3}
+ggplot(longcars, aes(x = val, y = mpg, colour = am, shape = vs)) +
+  geom_point(size = 4) +
+  facet_grid(. ~ var, scales = 'free')
+```
+
+## 見やすく {#nice-facet-grid}
+
+```{r, fig.height = 3}
+last_plot() +
+  facet_grid(. ~ var, scales = 'free', switch = 'x') +
+  theme_classic() +
+  theme(
+    strip.placement = 'outside',
+    strip.background = element_blank(),
+    strip.text.x = element_text(size = 11),
+    axis.title.x = element_blank()
+  )
+```
+
+[図ごとにy軸を表示したい場合はfacet_wrapを使おう](#scales-facet-wrap)
+
+## 初手に `GGally::ggpairs` もGOOD
+
+```{r, message = FALSE, fig.height = 4}
+GGally::ggpairs(minicars, aes(color = am, shape = vs))
+```
+
+## 変数が多いと見辛い
+
+```{r, message = FALSE, fig.height = 4}
+GGally::ggpairs(mtcars)
+```
+
+
+# facet_wrap
+
+## 分割したグラフを改行しつつ並べる
+
+```{r fig.height=3, message=FALSE}
+ggplot(
+  gather(select_if(mtcars, is.numeric)),
+  aes(value)
+) +
+  geom_histogram() +
+  facet_wrap(~ key, scales = 'free_x') 
+  # facet_wrap(facets = vars(key), scales = 'free_x')
+```
+
+## `dir` 引数で並べる向きを制御
+
+```{r, message = FALSE, fig.height = 4}
+last_plot() + facet_wrap(~ key, scales = 'free_x', dir = 'v')
+```
+
+## `nrow` 引数で行数を制御
+
+```{r, message = FALSE, fig.height = 4}
+last_plot() + 
+  facet_wrap(~ key, scales = 'free_x', nrow = 2)
+```
+
+## `ncol` 引数で列数を制御
+
+```{r, message = FALSE, fig.height = 4}
+last_plot() + facet_wrap(~ key, scales = 'free_x', ncol = 3)
+```
+
+## 変数が多い時に便利
+
+変数が多いとfacet_gridは辛い
+
+```{r, fig.height = 3, message = FALSE}
+last_plot() + facet_grid(. ~ key, scales = 'free_x')
+```
+
+## scalesがfreeな軸の目盛は各図に描写 {#scales-facet-wrap}
+
+[facet_gridは端の図にのみ軸を描写する](#nice-facet-grid)
+
+```{r, fig.height = 3}
+ggplot(longcars, aes(x = val, y = mpg, colour = am, shape = vs)) +
+  geom_point(size = 4) +
+  facet_wrap( ~ var, scales = 'free', strip.position = 'bottom') +
+  theme_classic() +
+  theme(
+    strip.placement = 'outside',
+    strip.background = element_blank(),
+    strip.text.x = element_text(size = 11),
+    axis.title.x = element_blank()
+  )
+```
+
+# facet逆引き
+
+## 並び順を反転したい
+
+## 並び順を制御したい
+
+## stripで図a, b, ...したい
+
+```{r, fig.height = 3, message = FALSE}
+minicars2 <- minicars %>%
+  mutate(vs = paste0('(', letters[factor(vs)], ') ', vs))
+ggplot(minicars2, aes(mpg)) +
+  geom_histogram() +
+  facet_wrap(~ vs, ncol = 1)
+```
+
+## 未分割の図も並べる (`margins` 引数) {#margins1}
+
+`facet_grid` 専用
+
+```{r, fig.height = 3, message = FALSE}
+ggplot(minicars, aes(mpg, fill = vs)) +
+  geom_histogram() +
+  facet_grid(vs ~ ., margins = TRUE)
+```
+
+## 未分割の図も並べる (`margin` 引数) {#margin2}
+
+審美的属性にも使う変数でfacetする場合は、  
+その変数のコピーを作っておくといい
+
+```{r, fig.height = 3, message = FALSE}
+minicars %>%
+  mutate(facet = vs) %>%
+  ggplot(aes(mpg, fill = vs)) +
+  geom_histogram() +
+  facet_grid(facet ~ ., margins = TRUE)
+```
+
+## 未分割の図も並べる (data wrangling)
+
+`facet_grid` でも `facet_wrap` でも使える
+
+```{r, fig.height = 3, message = FALSE}
+minicars2 <- minicars %>%
+  mutate(facet = vs) %>%
+  bind_rows(mutate(., facet = 'All'))
+ggplot(minicars2, aes(mpg, fill = vs)) +
+  geom_histogram() +
+  facet_wrap(~ facet, strip.position = 'right', ncol = 1)
+```
+
+## 異種の図を並べたい
+
+```{r, fig.height = 2, warning = FALSE, message = FALSE}
+minicars %>%
+  transmute(mpg, hist = 1, dens = NA_integer_) %>%
+  bind_rows(mutate(., hist = NA_integer_, dens = 1)) %>%
+  mutate(facet = ifelse(!is.na(hist), 'count', 'density')) %>%
+  ggplot(aes(x = mpg)) +
+  geom_histogram(aes(x = mpg * hist)) +
+  geom_density(aes(x = mpg * dens)) +
+  facet_wrap(~ facet, scales = 'free_y', strip.position = 'left') +
+  theme(
+    axis.title.y = element_blank(),
+    strip.placement = 'outside',
+    strip.background = element_blank(),
+    strip.text.y = element_text(size = 11)
+  )
+```
+
+## `facet_grid` と `facet_wrap` の引数 {#grid-vs-wrap}
+
+----------------------------------------------------------------
+目的                            facet_grid          facet_wrap  
+------------------------------  ------------------- --------------
+facetする変数を指定             rows, cols,         facets
+                                ~~facets~~
+
+行数・列数を変える                                  nrow, ncol
+
+軸の範囲を可変にする            scales, **shrink**  scales, **shrink**
+
+図の表示サイズを可変にする      **space**           
+
+stripの位置を変更               switch              strip.position
+                                                    ~~switch~~
+
+stripの文字列を変更             **labeller**        **labeller**
+
+stripの並べ方を変更             as.table            as.table, dir
+
+factorでfacetした時データに     **drop**            **drop**
+含まれない水準を表示する
+
+分割前の図も並べる              margins          
+----------------------------------------------------------------
+
+赤字は紹介していないもの
+
+
+# Hello, `patchwork` package
+
+## What is
+
+```{r echo = FALSE}
+include_graphics('https://github.com/thomasp85/patchwork/blob/master/man/figures/logo.png?raw=true')
+```
+
+https://github.com/thomasp85/patchwork
+
+二項演算子を利用して、  
+ggplot2で作った図を簡単に **継ぎ接ぎ** できるパッケージ
+
+参考記事 by かつどんさん (@nozma)  
+[patchworkのREADME邦訳+α](https://qiita.com/nozma/items/4512623bea296ccb74ba)  
+[patchwork以外の選択肢](https://qiita.com/nozma/items/cd98ec7938e0783d5d89)
+
+## インストール
+
+```{r, eval = FALSE}
+# devtoolsをインストールしていない人はまず
+install.packages('devtools')
+
+# GitHubからpatchworkをインストール
+devtools::install_github('thomasp85/patchwork')
+
+# 読み込み
+library(patchwork)
+```
+
+
+## `|`で図を横に並べる
+
+```{r, fig.height = 3}
+p1 <- ggplot(minicars) + geom_point(aes(wt, mpg)) + ggtitle('p1')
+p2 <- ggplot(minicars) + geom_point(aes(hp, mpg)) + ggtitle('p2')
+p3 <- ggplot(minicars) + geom_histogram(aes(wt)) + ggtitle('p3')
+p4 <- ggplot(minicars) + geom_histogram(aes(mpg)) + coord_flip() + ggtitle('p4')
+p1 | p2 | p3 | p4
+```
+
+## `/`で図を縦に並べる
+
+```{r, fig.height = 3}
+p3 / p1
+```
+
+## `()`でネストする {#group-by-brackets}
+
+```{r, fig.height = 3}
+p3 / (p1 | p4) | p2
+```
+
+## 空白のプロットは`plot_spacer()` {#plot-spacer}
+
+```{r, fig.height = 3}
+(p3 | plot_spacer()) / (p1 | p4)
+```
+
+もうちょっと良いスペーサーが欲しい (xx)
+
+## 全体のテーマを変える
+
+```{r, fig.height = 3}
+(p1 / (p3 | p4) / p2) & theme_classic()
+```
+
+## 最外ネストのテーマを変える
+
+```{r, fig.height = 3}
+(p1 / (p3 | p4) / p2) * theme_classic()
+```
+
+## レイアウトお任せなら`wrap_plots()` {#wrap-plots1}
+
+```{r, fig.height = 3}
+wrap_plots(p1, p2, p3, p4)
+# wrap_plots(list(p1, p2, p3, p4))
+```
+
+## レイアウトお好みでも`wrap_plots()` {#wrap-plots2}
+
+行数や列数、行の高さの比、列の幅の比なども弄れる
+
+```{r, fig.height = 3}
+wrap_plots(p3, p2, p1, p4, nrow = 2, ncol = 2, heights = c(1, 2), widths = c(2, 1))
+```
+
+## `|` `/` `wrap_plots` は組み合わせ可能 {#combo}
+
+```{r, fig.height = 3}
+wrap_plots(p1, p1 | p2, p3 / p4, nrow = 1)
+```
+
+
+## 注釈をつけるには`plot_annotation()` {#plot-annotation}
+
+```{r, fig.height = 3}
+(p1 | p2) +
+  plot_annotation(
+    title = 'title',
+    subtitle = 'subtitle', 
+    caption = 'caption', 
+    tag_levels = 'a', # 'a', 'A', '1', 'i', 'I'
+    tag_prefix = 'Figure ',
+    tag_suffix = '.',
+    tag_sep = NULL, # ナゾ
+    theme = theme_classic() # 全体に適応するテーマ
+  )
+```
+
+## 凡例を含む図も綺麗に並べてくれる
+
+```{r, fig.height = 3}
+p5 <- ggplot(minicars, aes(wt, mpg, color = vs)) +
+  geom_point()
+p1 / p5
+```
+
+## 多くパッケージで標準的な並べ方
+
+```{r, fig.height = 3}
+library(gridExtra)
+grid.arrange(p1, p5, ncol = 1)
+```
+
+# Enjoy
