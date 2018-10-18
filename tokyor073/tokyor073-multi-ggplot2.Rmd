@@ -776,7 +776,7 @@ patchwork   自由    自由      自由      全て
 
 ## Enjoy !
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.width = 8, fig.height = 4.944272}
 p <- ggplot(mtcars, aes(mpg)) + 
   geom_histogram() +
   theme(axis.title = element_blank())
