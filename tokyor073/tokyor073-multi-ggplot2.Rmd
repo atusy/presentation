@@ -2,6 +2,8 @@
 title: |
   | ggplot2で図を並べる
   | <span style = 'font-size: 50%'>〜facetごり押した私とpatchworkとの出会い〜</span>
+author: atusy
+date: 2018-10-20
 output:
   revealjs::revealjs_presentation:
     center: true
@@ -53,9 +55,13 @@ http://www.minsocam.org/MSA/Ammin/AM_Notable_Articles.html
 
 </div>
 
+<aside class="notes">
+最近嬉しかったことは，今月公開の投稿論文がEditor's choiceになったことです．
+</aside>
+
 # 色々な図の並べ方
 
-## ヒストグラムを並べる
+## ある変量について集団ごとのヒストグラム
 
 ```{r, echo = FALSE}
 mtcars %>%
@@ -77,7 +83,7 @@ mtcars %>%
   NULL
 ```
 
-## 散布図を並べる
+## y軸を固定してx軸を変えた散布図
 
 ```{r, echo = FALSE}
 mtcars %>%
@@ -101,7 +107,7 @@ mtcars %>%
 ```
 
 
-## ヒストグラムと散布図を並べる
+## ヒストグラムと散布図
 
 ```{r, echo = FALSE}
 d <- mtcars %>%
@@ -119,7 +125,7 @@ g2 <- ggplot(d, aes(hp, fill = Engine)) +
 g1 / g2
 ```
 
-## graphics::plotで並べる
+## graphics::plotでもできなくはない
 
 ```{r, echo = FALSE, dev = 'png'}
 par(bg = 'white', mfrow=c(2, 1))
@@ -130,6 +136,10 @@ hist(d$hp, breaks = 30, main = NULL, xlab = 'Horse power', xlim = c(50, 350))
 
 
 # 今日使うデータセット <br> `mtcars` and their friends
+
+<aside class="notes">
+
+</aside>
 
 ## Motor Trend Car Road Tests
 
@@ -270,13 +280,13 @@ last_plot() + # 直前のプロット
 
 `?theme` 参照……。
 
-# `facet_grid` {#facet-grid-intro}
+# `facet_grid` <br> 注目する変数でグラフを表形式に分割 {#facet-grid-intro}
 
-## 注目する変数でグラフを表形式に分割
+## 行で分割する変数 ~ 列で分割する変数
 
 ```{r, fig.height = 3}
 ggplot(minicars, aes(x = wt, y = mpg)) + geom_point() +
-  facet_grid(vs ~ am) # or facet_grid(vars(vs), vars(am))
+  facet_grid(vs ~ am) # or facet_grid(rows = vars(vs), cols = vars(am))
 ```
 
 ## データ整形は大事
@@ -389,7 +399,7 @@ ggplot(longcars, aes(x = val)) +
 
 # 2次元データのグラフでfacet_grid {#facet-grid-2d}
 
-## x軸を固定してy軸を変える
+## y軸を固定してx軸を変える {#vary-x-fix-y}
 
 ```{r, fig.height = 3}
 ggplot(longcars, aes(x = val, y = mpg, colour = am, shape = vs)) +
@@ -426,9 +436,9 @@ GGally::ggpairs(mtcars)
 ```
 
 
-# facet_wrap
+# facet_wrap <br> 分割したグラフを改行しつつ並べる
 
-## 分割したグラフを改行しつつ並べる
+## ~ 分割する変数
 
 ```{r fig.height=3, message=FALSE}
 ggplot(
@@ -577,7 +587,7 @@ ggplot(minicars2, aes(mpg, fill = vs)) +
   facet_wrap(~ facet, strip.position = 'right', ncol = 1)
 ```
 
-## 異種の図を並べたい
+## 異種の図を並べたい {#vary-plot-types}
 
 ```{r, fig.height = 2, warning = FALSE}
 minicars %>%
@@ -657,7 +667,7 @@ library(patchwork)
 ```
 
 
-## `|`で図を横に並べる
+## `|`で図を横に並べる {#side-by-side}
 
 ```{r, fig.height = 3}
 p1 <- ggplot(minicars) + geom_point(aes(wt, mpg)) + ggtitle('p1')
@@ -768,11 +778,12 @@ patchwork   自由    自由      自由      全て
 
 <br/>
 
-- 工夫次第ではfacetも異なるデータや図を扱える
-- patchworkは自由度が高いが、  
-  並べる図を一つずつ作る必要がある
-
-<br/>
+- [工夫次第ではfacetも異なるデータや図を扱える](#vary-plot-types)
+- [patchworkは自由度が高いが、  
+  並べる図を一つずつ作る必要がある](#side-by-side)
+- [`tidyr::gather` と `facet` の組み合わせが便利](#vary-x-fix-y)
+- [ggplot2は簡単に纏まりある図を作れるけれど，  
+  本当に綺麗な図か，よく考えよう](#nice-facet-grid)
 
 ## Enjoy !
 
