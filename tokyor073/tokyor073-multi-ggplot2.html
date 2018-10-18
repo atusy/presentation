@@ -540,6 +540,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul></li>
 </ul>
 <p>Blog: <a href="https://atusy.github.io/blog/" class="uri">https://atusy.github.io/blog/</a></p>
+</section><section id="editors-choice" class="slide level2">
+<h2>投稿論文がEditor’s choiceになった</h2>
+<p><a href="http://www.minsocam.org/MSA/Ammin/AM_Notable_Articles.html" class="uri">http://www.minsocam.org/MSA/Ammin/AM_Notable_Articles.html</a></p>
+<p><a href="https://www.degruyter.com/view/j/ammin.2018.103.issue-10/am-2018-6323CCBY/am-2018-6323CCBY.xml" class="uri">https://www.degruyter.com/view/j/ammin.2018.103.issue-10/am-2018-6323CCBY/am-2018-6323CCBY.xml</a></p>
 </section></section>
 <section><section class="title-slide slide level1"><h1>色々な図の並べ方</h1></section><section class="slide level2">
 <h2>ヒストグラムを並べる</h2>
@@ -891,14 +895,13 @@ IQR (CV) : 119.62 (1.16)</td>
 <a class="sourceLine" id="cb29-6" data-line-number="6"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>key, <span class="dt">scales =</span> <span class="st">&#39;free_x&#39;</span>) </a>
 <a class="sourceLine" id="cb29-7" data-line-number="7">  <span class="co"># facet_wrap(facets = vars(key), scales = &#39;free_x&#39;)</span></a></code></pre></div>
 <p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-34-1.svg" width="768" /></p>
-</section><section id="dir-" class="slide level2">
-<h2><code>dir</code> 引数で並べる向きを制御</h2>
+</section><section id="-dir-v" class="slide level2">
+<h2>列ごとに並べる (<code>dir = 'v'</code>)</h2>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">last_plot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>key, <span class="dt">scales =</span> <span class="st">&#39;free_x&#39;</span>, <span class="dt">dir =</span> <span class="st">&#39;v&#39;</span>)</a></code></pre></div>
 <p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-35-1.svg" width="768" /></p>
 </section><section id="nrow-" class="slide level2">
 <h2><code>nrow</code> 引数で行数を制御</h2>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">last_plot</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>key, <span class="dt">scales =</span> <span class="st">&#39;free_x&#39;</span>, <span class="dt">nrow =</span> <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">last_plot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>key, <span class="dt">scales =</span> <span class="st">&#39;free_x&#39;</span>, <span class="dt">nrow =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-36-1.svg" width="768" /></p>
 </section><section id="ncol-" class="slide level2">
 <h2><code>ncol</code> 引数で列数を制御</h2>
@@ -924,62 +927,81 @@ IQR (CV) : 119.62 (1.16)</td>
 <a class="sourceLine" id="cb34-10" data-line-number="10">  )</a></code></pre></div>
 <p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-39-1.svg" width="768" /></p>
 </section></section>
-<section><section id="facet" class="title-slide slide level1"><h1>facet逆引き</h1></section><section class="slide level2">
-<h2>並び順を反転したい</h2>
+<section><section id="facet" class="title-slide slide level1"><h1>facet逆引き</h1></section><section id="as-table" class="slide level2">
+<h2>並び順を反転したい (<code>as.table = FALSE</code>)</h2>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co"># 既定値はTRUE</span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="kw">ggplot</span>(minicars, <span class="kw">aes</span>(mpg)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>() <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&#39;as.table = TRUE&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>vs, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">as.table =</span> <span class="ot">TRUE</span>) </a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="co"># FALSEにしてみる</span></a>
+<a class="sourceLine" id="cb35-6" data-line-number="6"><span class="kw">ggplot</span>(minicars, <span class="kw">aes</span>(mpg)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>() <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&#39;as.table = FALSE&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb35-7" data-line-number="7"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>vs, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">as.table =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-40-1.svg" width="768" /></p>
 </section><section class="slide level2">
 <h2>並び順を制御したい</h2>
+<p>facetする変数をfactor型にすると、levels順になる。<br />
+factorの操作には<code>forcats</code> パッケージが便利 (参考: <a href="https://kazutan.github.io/kazutanR/forcats_test.html">ぞうさんの記事</a>)</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">library</span>(forcats)</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">minicars2 &lt;-<span class="st"> </span>minicars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb36-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">vs =</span> forcats<span class="op">::</span><span class="kw">fct_relevel</span>(vs, <span class="st">&#39;V-shaped&#39;</span>))</a>
+<a class="sourceLine" id="cb36-4" data-line-number="4"><span class="kw">ggplot</span>(minicars2, <span class="kw">aes</span>(mpg)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb36-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb36-6" data-line-number="6"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>vs, <span class="dt">ncol =</span> <span class="dv">1</span>)</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-41-1.svg" width="768" /></p>
+<p>Tip: 凡例などの順序もfactorで制御できる</p>
 </section><section id="stripa-b-" class="slide level2">
 <h2>stripで図a, b, …したい</h2>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">minicars2 &lt;-<span class="st"> </span>minicars <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">vs =</span> <span class="kw">paste0</span>(<span class="st">&#39;(&#39;</span>, letters[<span class="kw">factor</span>(vs)], <span class="st">&#39;) &#39;</span>, vs))</a>
-<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="kw">ggplot</span>(minicars2, <span class="kw">aes</span>(mpg)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>vs, <span class="dt">ncol =</span> <span class="dv">1</span>)</a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-40-1.svg" width="768" /></p>
-</section><section id="margins1" class="slide level2">
-<h2>未分割の図も並べる (<code>margins</code> 引数)</h2>
-<p><code>facet_grid</code> 専用</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">ggplot</span>(minicars, <span class="kw">aes</span>(mpg, <span class="dt">fill =</span> vs)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb36-3" data-line-number="3"><span class="st">  </span><span class="kw">facet_grid</span>(vs <span class="op">~</span><span class="st"> </span>., <span class="dt">margins =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-41-1.svg" width="768" /></p>
-</section><section id="margin2" class="slide level2">
-<h2>未分割の図も並べる (<code>margin</code> 引数)</h2>
-<p>審美的属性にも使う変数でfacetする場合は、<br />
-その変数のコピーを作っておくといい</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">minicars <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">facet =</span> vs) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(mpg, <span class="dt">fill =</span> vs)) <span class="op">+</span></a>
+<p>facetする変数を予め整形しておく</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">minicars2 &lt;-<span class="st"> </span>minicars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">vs =</span> <span class="kw">paste0</span>(<span class="st">&#39;(&#39;</span>, letters[<span class="kw">factor</span>(vs)], <span class="st">&#39;) &#39;</span>, vs))</a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="kw">ggplot</span>(minicars2, <span class="kw">aes</span>(mpg)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb37-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb37-5" data-line-number="5"><span class="st">  </span><span class="kw">facet_grid</span>(facet <span class="op">~</span><span class="st"> </span>., <span class="dt">margins =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb37-5" data-line-number="5"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>vs, <span class="dt">ncol =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-42-1.svg" width="768" /></p>
+</section><section id="margins1" class="slide level2">
+<h2>未分割の図も並べる (<code>margins = TRUE</code>)</h2>
+<p><code>facet_grid</code> 専用</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">ggplot</span>(minicars, <span class="kw">aes</span>(mpg, <span class="dt">fill =</span> vs)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="st">  </span><span class="kw">facet_grid</span>(vs <span class="op">~</span><span class="st"> </span>., <span class="dt">margins =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-43-1.svg" width="768" /></p>
+</section><section id="margin2" class="slide level2">
+<h2>未分割の図も並べる (<code>margins = TRUE</code>)</h2>
+<p>審美的属性にも使う変数でfacetする場合は、<br />
+その変数のコピーでfacetする</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">minicars2 &lt;-<span class="st"> </span>minicars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">facet =</span> vs)</a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="kw">ggplot</span>(minicars2, <span class="kw">aes</span>(mpg, <span class="dt">fill =</span> vs)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-5" data-line-number="5"><span class="st">  </span><span class="kw">facet_grid</span>(facet <span class="op">~</span><span class="st"> </span>., <span class="dt">margins =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-44-1.svg" width="768" /></p>
 </section><section id="-data-wrangling" class="slide level2">
 <h2>未分割の図も並べる (data wrangling)</h2>
 <p><code>facet_grid</code> でも <code>facet_wrap</code> でも使える</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">minicars2 &lt;-<span class="st"> </span>minicars <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">facet =</span> vs) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="st">  </span><span class="kw">bind_rows</span>(<span class="kw">mutate</span>(., <span class="dt">facet =</span> <span class="st">&#39;All&#39;</span>))</a>
-<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="kw">ggplot</span>(minicars2, <span class="kw">aes</span>(mpg, <span class="dt">fill =</span> vs)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb38-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb38-6" data-line-number="6"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>facet, <span class="dt">strip.position =</span> <span class="st">&#39;right&#39;</span>, <span class="dt">ncol =</span> <span class="dv">1</span>)</a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-43-1.svg" width="768" /></p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">minicars2 &lt;-<span class="st"> </span>minicars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">facet =</span> vs) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="st">  </span><span class="kw">bind_rows</span>(<span class="kw">mutate</span>(., <span class="dt">facet =</span> <span class="st">&#39;All&#39;</span>))</a>
+<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="kw">ggplot</span>(minicars2, <span class="kw">aes</span>(mpg, <span class="dt">fill =</span> vs)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb40-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb40-6" data-line-number="6"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>facet, <span class="dt">strip.position =</span> <span class="st">&#39;right&#39;</span>, <span class="dt">ncol =</span> <span class="dv">1</span>)</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-45-1.svg" width="768" /></p>
 </section><section class="slide level2">
 <h2>異種の図を並べたい</h2>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">minicars <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(mpg, <span class="dt">hist =</span> <span class="dv">1</span>, <span class="dt">dens =</span> <span class="ot">NA_integer_</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="st">  </span><span class="kw">bind_rows</span>(<span class="kw">mutate</span>(., <span class="dt">hist =</span> <span class="ot">NA_integer_</span>, <span class="dt">dens =</span> <span class="dv">1</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">facet =</span> <span class="kw">ifelse</span>(<span class="op">!</span><span class="kw">is.na</span>(hist), <span class="st">&#39;count&#39;</span>, <span class="st">&#39;density&#39;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb39-5" data-line-number="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> mpg)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb39-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> mpg <span class="op">*</span><span class="st"> </span>hist)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb39-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x =</span> mpg <span class="op">*</span><span class="st"> </span>dens)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb39-8" data-line-number="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>facet, <span class="dt">scales =</span> <span class="st">&#39;free_y&#39;</span>, <span class="dt">strip.position =</span> <span class="st">&#39;left&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb39-9" data-line-number="9"><span class="st">  </span><span class="kw">theme</span>(</a>
-<a class="sourceLine" id="cb39-10" data-line-number="10">    <span class="dt">axis.title.y =</span> <span class="kw">element_blank</span>(),</a>
-<a class="sourceLine" id="cb39-11" data-line-number="11">    <span class="dt">strip.placement =</span> <span class="st">&#39;outside&#39;</span>,</a>
-<a class="sourceLine" id="cb39-12" data-line-number="12">    <span class="dt">strip.background =</span> <span class="kw">element_blank</span>(),</a>
-<a class="sourceLine" id="cb39-13" data-line-number="13">    <span class="dt">strip.text.y =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">11</span>)</a>
-<a class="sourceLine" id="cb39-14" data-line-number="14">  )</a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-44-1.svg" width="768" /></p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">minicars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(mpg, <span class="dt">hist =</span> <span class="dv">1</span>, <span class="dt">dens =</span> <span class="ot">NA_integer_</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb41-3" data-line-number="3"><span class="st">  </span><span class="kw">bind_rows</span>(<span class="kw">mutate</span>(., <span class="dt">hist =</span> <span class="ot">NA_integer_</span>, <span class="dt">dens =</span> <span class="dv">1</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb41-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">facet =</span> <span class="kw">ifelse</span>(<span class="op">!</span><span class="kw">is.na</span>(hist), <span class="st">&#39;count&#39;</span>, <span class="st">&#39;density&#39;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb41-5" data-line-number="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> mpg)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb41-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x =</span> mpg <span class="op">*</span><span class="st"> </span>hist)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb41-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x =</span> mpg <span class="op">*</span><span class="st"> </span>dens)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb41-8" data-line-number="8"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>facet, <span class="dt">scales =</span> <span class="st">&#39;free_y&#39;</span>, <span class="dt">strip.position =</span> <span class="st">&#39;left&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb41-9" data-line-number="9"><span class="st">  </span><span class="kw">theme</span>(</a>
+<a class="sourceLine" id="cb41-10" data-line-number="10">    <span class="dt">axis.title.y =</span> <span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb41-11" data-line-number="11">    <span class="dt">strip.placement =</span> <span class="st">&#39;outside&#39;</span>,</a>
+<a class="sourceLine" id="cb41-12" data-line-number="12">    <span class="dt">strip.background =</span> <span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb41-13" data-line-number="13">    <span class="dt">strip.text.y =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">11</span>)</a>
+<a class="sourceLine" id="cb41-14" data-line-number="14">  )</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-46-1.svg" width="768" /></p>
 </section><section id="grid-vs-wrap" class="slide level2">
 <h2><code>facet_grid</code> と <code>facet_wrap</code> の引数</h2>
 <table style="width:93%;">
@@ -1043,10 +1065,10 @@ IQR (CV) : 119.62 (1.16)</td>
 </tr>
 </tbody>
 </table>
-<p>赤字は紹介していないもの</p>
+<p><strong>赤字</strong> は未紹介・ <del>打ち消し</del> は Deprecated</p>
 </section></section>
-<section><section id="hello-patchwork-package" class="title-slide slide level1"><h1>Hello, <code>patchwork</code> package</h1></section><section id="what-is" class="slide level2">
-<h2>What is</h2>
+<section><section id="patchwork-" class="title-slide slide level1"><h1><code>patchwork</code> で自由に図を並べる</h1></section><section id="patchwork" class="slide level2">
+<h2></h2>
 <p><img data-src="https://github.com/thomasp85/patchwork/blob/master/man/figures/logo.png?raw=true" /></p>
 <p><a href="https://github.com/thomasp85/patchwork" class="uri">https://github.com/thomasp85/patchwork</a></p>
 <p>二項演算子を利用して、<br />
@@ -1056,84 +1078,132 @@ ggplot2で作った図を簡単に <strong>継ぎ接ぎ</strong> できるパッ
 <a href="https://qiita.com/nozma/items/cd98ec7938e0783d5d89">patchwork以外の選択肢</a></p>
 </section><section class="slide level2">
 <h2>インストール</h2>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="co"># devtoolsをインストールしていない人はまず</span></a>
-<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="st">&#39;devtools&#39;</span>)</a>
-<a class="sourceLine" id="cb40-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="co"># GitHubからpatchworkをインストール</span></a>
-<a class="sourceLine" id="cb40-5" data-line-number="5">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&#39;thomasp85/patchwork&#39;</span>)</a>
-<a class="sourceLine" id="cb40-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb40-7" data-line-number="7"><span class="co"># 読み込み</span></a>
-<a class="sourceLine" id="cb40-8" data-line-number="8"><span class="kw">library</span>(patchwork)</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="co"># devtoolsをインストールしていない人はまず</span></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="st">&#39;devtools&#39;</span>)</a>
+<a class="sourceLine" id="cb42-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="co"># GitHubからpatchworkをインストール</span></a>
+<a class="sourceLine" id="cb42-5" data-line-number="5">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&#39;thomasp85/patchwork&#39;</span>)</a>
+<a class="sourceLine" id="cb42-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb42-7" data-line-number="7"><span class="co"># 読み込み</span></a>
+<a class="sourceLine" id="cb42-8" data-line-number="8"><span class="kw">library</span>(patchwork)</a></code></pre></div>
 </section><section class="slide level2">
 <h2><code>|</code>で図を横に並べる</h2>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(minicars) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(wt, mpg)) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&#39;p1&#39;</span>)</a>
-<a class="sourceLine" id="cb41-2" data-line-number="2">p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(minicars) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(hp, mpg)) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&#39;p2&#39;</span>)</a>
-<a class="sourceLine" id="cb41-3" data-line-number="3">p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(minicars) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(wt)) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&#39;p3&#39;</span>)</a>
-<a class="sourceLine" id="cb41-4" data-line-number="4">p4 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(minicars) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(mpg)) <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>() <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&#39;p4&#39;</span>)</a>
-<a class="sourceLine" id="cb41-5" data-line-number="5">p1 <span class="op">|</span><span class="st"> </span>p2 <span class="op">|</span><span class="st"> </span>p3 <span class="op">|</span><span class="st"> </span>p4</a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-47-1.svg" width="768" /></p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(minicars) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(wt, mpg)) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&#39;p1&#39;</span>)</a>
+<a class="sourceLine" id="cb43-2" data-line-number="2">p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(minicars) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(hp, mpg)) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&#39;p2&#39;</span>)</a>
+<a class="sourceLine" id="cb43-3" data-line-number="3">p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(minicars) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(wt)) <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&#39;p3&#39;</span>)</a>
+<a class="sourceLine" id="cb43-4" data-line-number="4">p4 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(minicars) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(mpg)) <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>() <span class="op">+</span><span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&#39;p4&#39;</span>)</a>
+<a class="sourceLine" id="cb43-5" data-line-number="5">p1 <span class="op">|</span><span class="st"> </span>p2 <span class="op">|</span><span class="st"> </span>p3 <span class="op">|</span><span class="st"> </span>p4</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-49-1.svg" width="768" /></p>
 </section><section class="slide level2">
 <h2><code>/</code>で図を縦に並べる</h2>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">p3 <span class="op">/</span><span class="st"> </span>p1</a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-48-1.svg" width="768" /></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">p3 <span class="op">/</span><span class="st"> </span>p1</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-50-1.svg" width="768" /></p>
 </section><section id="group-by-brackets" class="slide level2">
 <h2><code>()</code>でネストする</h2>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">p3 <span class="op">/</span><span class="st"> </span>(p1 <span class="op">|</span><span class="st"> </span>p4) <span class="op">|</span><span class="st"> </span>p2</a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-49-1.svg" width="768" /></p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">p3 <span class="op">/</span><span class="st"> </span>(p1 <span class="op">|</span><span class="st"> </span>p4) <span class="op">|</span><span class="st"> </span>p2</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-51-1.svg" width="768" /></p>
 </section><section id="plot-spacer" class="slide level2">
 <h2>空白のプロットは<code>plot_spacer()</code></h2>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">(p3 <span class="op">|</span><span class="st"> </span><span class="kw">plot_spacer</span>()) <span class="op">/</span><span class="st"> </span>(p1 <span class="op">|</span><span class="st"> </span>p4)</a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-50-1.svg" width="768" /></p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">(p3 <span class="op">|</span><span class="st"> </span><span class="kw">plot_spacer</span>()) <span class="op">/</span><span class="st"> </span>(p1 <span class="op">|</span><span class="st"> </span>p4)</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-52-1.svg" width="768" /></p>
 <p>もうちょっと良いスペーサーが欲しい (xx)</p>
+<p>周辺分布なら <code>ggExtra::ggMarginal</code></p>
 </section><section class="slide level2">
 <h2>全体のテーマを変える</h2>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">(p1 <span class="op">/</span><span class="st"> </span>(p3 <span class="op">|</span><span class="st"> </span>p4) <span class="op">/</span><span class="st"> </span>p2) <span class="op">&amp;</span><span class="st"> </span><span class="kw">theme_classic</span>()</a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-51-1.svg" width="768" /></p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">(p1 <span class="op">/</span><span class="st"> </span>(p3 <span class="op">|</span><span class="st"> </span>p4) <span class="op">/</span><span class="st"> </span>p2) <span class="op">&amp;</span><span class="st"> </span><span class="kw">theme_classic</span>()</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-53-1.svg" width="768" /></p>
 </section><section class="slide level2">
 <h2>最外ネストのテーマを変える</h2>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">(p1 <span class="op">/</span><span class="st"> </span>(p3 <span class="op">|</span><span class="st"> </span>p4) <span class="op">/</span><span class="st"> </span>p2) <span class="op">*</span><span class="st"> </span><span class="kw">theme_classic</span>()</a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-52-1.svg" width="768" /></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">(p1 <span class="op">/</span><span class="st"> </span>(p3 <span class="op">|</span><span class="st"> </span>p4) <span class="op">/</span><span class="st"> </span>p2) <span class="op">*</span><span class="st"> </span><span class="kw">theme_classic</span>()</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-54-1.svg" width="768" /></p>
 </section><section id="wrap-plots1" class="slide level2">
 <h2>レイアウトお任せなら<code>wrap_plots()</code></h2>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">wrap_plots</span>(p1, p2, p3, p4)</a>
-<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="co"># wrap_plots(list(p1, p2, p3, p4))</span></a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-53-1.svg" width="768" /></p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">wrap_plots</span>(p1, p2, p3, p4)</a>
+<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="co"># wrap_plots(list(p1, p2, p3, p4))</span></a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-55-1.svg" width="768" /></p>
 </section><section id="wrap-plots2" class="slide level2">
 <h2>レイアウトお好みでも<code>wrap_plots()</code></h2>
 <p>行数や列数、行の高さの比、列の幅の比なども弄れる</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">wrap_plots</span>(p3, p2, p1, p4, <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">heights =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">widths =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))</a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-54-1.svg" width="768" /></p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">wrap_plots</span>(p3, p2, p1, p4, <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">heights =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">widths =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-56-1.svg" width="768" /></p>
 </section><section id="combo" class="slide level2">
 <h2><code>|</code> <code>/</code> <code>wrap_plots</code> は組み合わせ可能</h2>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">wrap_plots</span>(p1, p1 <span class="op">|</span><span class="st"> </span>p2, p3 <span class="op">/</span><span class="st"> </span>p4, <span class="dt">nrow =</span> <span class="dv">1</span>)</a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-55-1.svg" width="768" /></p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">wrap_plots</span>(p1, p1 <span class="op">|</span><span class="st"> </span>p2, p3 <span class="op">/</span><span class="st"> </span>p4, <span class="dt">nrow =</span> <span class="dv">1</span>)</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-57-1.svg" width="768" /></p>
 </section><section id="plot-annotation" class="slide level2">
 <h2>注釈をつけるには<code>plot_annotation()</code></h2>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">(p1 <span class="op">|</span><span class="st"> </span>p2) <span class="op">+</span></a>
-<a class="sourceLine" id="cb50-2" data-line-number="2"><span class="st">  </span><span class="kw">plot_annotation</span>(</a>
-<a class="sourceLine" id="cb50-3" data-line-number="3">    <span class="dt">title =</span> <span class="st">&#39;title&#39;</span>,</a>
-<a class="sourceLine" id="cb50-4" data-line-number="4">    <span class="dt">subtitle =</span> <span class="st">&#39;subtitle&#39;</span>, </a>
-<a class="sourceLine" id="cb50-5" data-line-number="5">    <span class="dt">caption =</span> <span class="st">&#39;caption&#39;</span>, </a>
-<a class="sourceLine" id="cb50-6" data-line-number="6">    <span class="dt">tag_levels =</span> <span class="st">&#39;a&#39;</span>, <span class="co"># &#39;a&#39;, &#39;A&#39;, &#39;1&#39;, &#39;i&#39;, &#39;I&#39;</span></a>
-<a class="sourceLine" id="cb50-7" data-line-number="7">    <span class="dt">tag_prefix =</span> <span class="st">&#39;Figure &#39;</span>,</a>
-<a class="sourceLine" id="cb50-8" data-line-number="8">    <span class="dt">tag_suffix =</span> <span class="st">&#39;.&#39;</span>,</a>
-<a class="sourceLine" id="cb50-9" data-line-number="9">    <span class="dt">tag_sep =</span> <span class="ot">NULL</span>, <span class="co"># ナゾ</span></a>
-<a class="sourceLine" id="cb50-10" data-line-number="10">    <span class="dt">theme =</span> <span class="kw">theme_classic</span>() <span class="co"># 全体に適応するテーマ</span></a>
-<a class="sourceLine" id="cb50-11" data-line-number="11">  )</a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-56-1.svg" width="768" /></p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">(p1 <span class="op">|</span><span class="st"> </span>p2) <span class="op">+</span></a>
+<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="st">  </span><span class="kw">plot_annotation</span>(</a>
+<a class="sourceLine" id="cb52-3" data-line-number="3">    <span class="dt">title =</span> <span class="st">&#39;title&#39;</span>,</a>
+<a class="sourceLine" id="cb52-4" data-line-number="4">    <span class="dt">subtitle =</span> <span class="st">&#39;subtitle&#39;</span>, </a>
+<a class="sourceLine" id="cb52-5" data-line-number="5">    <span class="dt">caption =</span> <span class="st">&#39;caption&#39;</span>, </a>
+<a class="sourceLine" id="cb52-6" data-line-number="6">    <span class="dt">tag_levels =</span> <span class="st">&#39;a&#39;</span>, <span class="co"># &#39;a&#39;, &#39;A&#39;, &#39;1&#39;, &#39;i&#39;, &#39;I&#39;</span></a>
+<a class="sourceLine" id="cb52-7" data-line-number="7">    <span class="dt">tag_prefix =</span> <span class="st">&#39;Figure &#39;</span>,</a>
+<a class="sourceLine" id="cb52-8" data-line-number="8">    <span class="dt">tag_suffix =</span> <span class="st">&#39;.&#39;</span>,</a>
+<a class="sourceLine" id="cb52-9" data-line-number="9">    <span class="dt">tag_sep =</span> <span class="ot">NULL</span>, <span class="co"># ナゾ</span></a>
+<a class="sourceLine" id="cb52-10" data-line-number="10">    <span class="dt">theme =</span> <span class="kw">theme_classic</span>() <span class="co"># 全体に適応するテーマ</span></a>
+<a class="sourceLine" id="cb52-11" data-line-number="11">  )</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-58-1.svg" width="768" /></p>
 </section><section class="slide level2">
 <h2>凡例を含む図も綺麗に並べてくれる</h2>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">p5 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(minicars, <span class="kw">aes</span>(wt, mpg, <span class="dt">color =</span> vs)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb51-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>()</a>
-<a class="sourceLine" id="cb51-3" data-line-number="3">p1 <span class="op">/</span><span class="st"> </span>p5</a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-57-1.svg" width="768" /></p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">p5 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(minicars, <span class="kw">aes</span>(wt, mpg, <span class="dt">color =</span> vs)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>()</a>
+<a class="sourceLine" id="cb53-3" data-line-number="3">p1 <span class="op">/</span><span class="st"> </span>p5</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-59-1.svg" width="768" /></p>
 </section><section class="slide level2">
 <h2>多くパッケージで標準的な並べ方</h2>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">library</span>(gridExtra)</a>
-<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="kw">grid.arrange</span>(p1, p5, <span class="dt">ncol =</span> <span class="dv">1</span>)</a></code></pre></div>
-<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-58-1.svg" width="768" /></p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="kw">library</span>(gridExtra)</a>
+<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="kw">grid.arrange</span>(p1, p5, <span class="dt">ncol =</span> <span class="dv">1</span>)</a></code></pre></div>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-60-1.svg" width="768" /></p>
 </section></section>
-<section><section id="enjoy" class="title-slide slide level1"><h1>Enjoy</h1></section></section>
+<section><section class="title-slide slide level1"><h1>まとめ</h1></section><section id="up-to-you" class="slide level2">
+<h2>使い分けが肝心</h2>
+<p><br/></p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: left;">データ</th>
+<th style="text-align: left;">図の種類</th>
+<th style="text-align: left;">並べかた</th>
+<th style="text-align: left;">軸の表示</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>facet_grid</td>
+<td style="text-align: left;">同じ</td>
+<td style="text-align: left;">同じ</td>
+<td style="text-align: left;">表形式</td>
+<td style="text-align: left;">端のみ</td>
+</tr>
+<tr class="even">
+<td>facet_wrap</td>
+<td style="text-align: left;">同じ</td>
+<td style="text-align: left;">同じ</td>
+<td style="text-align: left;">改行</td>
+<td style="text-align: left;">scales引数次第</td>
+</tr>
+<tr class="odd">
+<td>patchwork</td>
+<td style="text-align: left;">自由</td>
+<td style="text-align: left;">自由</td>
+<td style="text-align: left;">自由</td>
+<td style="text-align: left;">全て</td>
+</tr>
+</tbody>
+</table>
+<p><br/></p>
+<ul>
+<li>工夫次第ではfacetも異なるデータや図を扱える</li>
+<li>patchworkは自由度が高いが、<br />
+並べる図を一つずつ作る必要がある</li>
+</ul>
+<p><br/></p>
+</section><section id="enjoy" class="slide level2">
+<h2>Enjoy !</h2>
+<p><img src="tokyor073-multi-ggplot2_files/figure-revealjs/unnamed-chunk-61-1.svg" width="768" /></p>
+</section></section>
     </div>
   </div>
 
