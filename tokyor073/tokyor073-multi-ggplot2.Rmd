@@ -37,9 +37,21 @@ Blog: https://atusy.github.io/blog/
 
 ## 投稿論文がEditor's choiceになった
 
+ggplot2が沢山並んでるのでチラ見してみてネ (オープンアクセス)
+
+<div style='font-size:75%'>
+
+[A rapid and precise quantitative electron probe chemical mapping technique and its application to an ultrahigh-pressure eclogite from the Moldanubian Zone of the Bohemian Massif (Nové Dvory, Czech Republic)](https://www.degruyter.com/view/j/ammin.2018.103.issue-10/am-2018-6323CCBY/am-2018-6323CCBY.xml)
+
+</div>
+
+<div style='font-size:50%'>
+
+> Yasumoto et al. develop a new chemical mapping technique that relates mineral-scale compositions (obtained from EMPA) to whole rock compositions. Their model, called QntMap, is applied to a mineralogically layered UHP eclogite (Nové Dvory) from the Czech Republic, previously interpreted as a high-pressure cumulate. Their map of a 3 cm^2^ area, however, shows that in moving from the garnet- to the pyroxene-rich layer, Cr and Mg# increase in both garnet and pyroxene phases. They conclude that this disequilibrium feature results from a melt (the pyroxenite layer) that was injected into a garnet-rich UHP host. The potential reach goes much further. This research could serve as an excellent tool to evaluate hypotheses of granite emplacement or so-considered fluid-driven alteration within a myriad of settings.
+
 http://www.minsocam.org/MSA/Ammin/AM_Notable_Articles.html
 
-https://www.degruyter.com/view/j/ammin.2018.103.issue-10/am-2018-6323CCBY/am-2018-6323CCBY.xml
+</div>
 
 # 色々な図の並べ方
 
