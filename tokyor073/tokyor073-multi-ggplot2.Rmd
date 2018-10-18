@@ -16,9 +16,8 @@ output:
 library(tidyverse)
 library(patchwork)
 library(knitr)
-opts_chunk$set(dev = 'CairoSVG', fig.show = 'hold', cache = TRUE, message = FALSE)
-formals(stat_bin)$bins <- 30
-assign
+opts_chunk$set(dev = 'CairoSVG', fig.show = 'hold', cache = TRUE)
+formals(geom_histogram)$bins <- 30
 ```
 
 # 自己紹介
@@ -36,11 +35,17 @@ assign
 
 Blog: https://atusy.github.io/blog/
 
+## 投稿論文がEditor's choiceになった
+
+http://www.minsocam.org/MSA/Ammin/AM_Notable_Articles.html
+
+https://www.degruyter.com/view/j/ammin.2018.103.issue-10/am-2018-6323CCBY/am-2018-6323CCBY.xml
+
 # 色々な図の並べ方
 
 ## ヒストグラムを並べる
 
-```{r, echo = FALSE, message = FALSE}
+```{r, echo = FALSE}
 mtcars %>%
   transmute(
     `Mile / Gallon` = mpg,
@@ -86,7 +91,7 @@ mtcars %>%
 
 ## ヒストグラムと散布図を並べる
 
-```{r, echo = FALSE, message = FALSE}
+```{r, echo = FALSE}
 d <- mtcars %>%
   transmute(wt, hp, Engine = c('V-shaped', 'Straight')[vs + 1])
 g1 <- ggplot(d, aes(hp, wt, color = Engine)) +
@@ -212,7 +217,7 @@ longcars %>%
 
 ## ヒストグラム
 
-```{r, fig.height = 3, message = FALSE}
+```{r, fig.height = 3}
 library(ggplot2)
 ggplot(
   data = minicars, # プロットしたいデータフレーム
@@ -298,7 +303,7 @@ ggplot(minicars, aes(x = wt, y = mpg)) + geom_point() +
 
 ## ヒストグラムを系列ごとに分割
 
-```{r, message = FALSE, fig.height = 3}
+```{r, fig.height = 3}
 ggplot(minicars, aes(x = mpg)) +
   geom_histogram() +
   facet_grid(vs ~ .)
@@ -307,7 +312,7 @@ ggplot(minicars, aes(x = mpg)) +
 
 ## ヒストグラムを変数ごと系列ごとに分割
 
-```{r, fig.height = 3, message = FALSE}
+```{r, fig.height = 3}
 ggplot(longcars, aes(x = val)) +
   geom_histogram() +
   facet_grid(vs ~ var) 
@@ -315,7 +320,7 @@ ggplot(longcars, aes(x = val)) +
 
 ## `scales = 'free_x'` でx軸の範囲を可変に
 
-```{r, fig.height = 3, message = FALSE}
+```{r, fig.height = 3}
 last_plot() + facet_grid(vs ~ var, scales = 'free_x') 
 # scalesは'fixed' (規定値), 'free_x', 'free_y', 'free'のいずれか
 ```
@@ -325,39 +330,39 @@ last_plot() + facet_grid(vs ~ var, scales = 'free_x')
 
 ## stripの位置を`switch = 'both'`
 
-```{r, fig.height = 3, message = FALSE}
+```{r, fig.height = 3}
 last_plot() + facet_grid(vs ~ var, scales = 'free_x', switch = 'both') 
 # switchはNULL (既定値), 'x', 'y', 'both'のいずれか
 ```
 
 ## stripを目盛の外側へ {#strip.placement}
 
-```{r, fig.height = 3, message = FALSE}
+```{r, fig.height = 3}
 last_plot() + theme(strip.placement = 'outside')
 # strip.placementは'inside' (既定値) か 'outside'
 ```
 
 ## stripの背景をなくす {#strip.background}
 
-```{r, fig.height = 3, message = FALSE}
+```{r, fig.height = 3}
 last_plot() + theme(strip.background = element_blank())
 ```
 
 ## x軸stripのフォントサイズを変更 {#strip.text.x}
 
-```{r, fig.height = 3, message = FALSE}
+```{r, fig.height = 3}
 last_plot() + theme(strip.text.x = element_text(size = 11))
 ```
 
 ## x軸のタイトルを消す {#axis.title.x}
 
-```{r, fig.height = 3, message = FALSE}
+```{r, fig.height = 3}
 last_plot() + theme(axis.title.x = element_blank())
 ```
 
 ## 一気に
 
-```{r, fig.height = 3, message = FALSE}
+```{r, fig.height = 3}
 ggplot(longcars, aes(x = val)) +
   geom_histogram() +
   facet_grid(vs ~ var, scales = 'free_x', switch = 'both') +
@@ -423,22 +428,21 @@ ggplot(
   # facet_wrap(facets = vars(key), scales = 'free_x')
 ```
 
-## `dir` 引数で並べる向きを制御
+## 列ごとに並べる (`dir = 'v'`)
 
-```{r, message = FALSE, fig.height = 4}
+```{r, fig.height = 4}
 last_plot() + facet_wrap(~ key, scales = 'free_x', dir = 'v')
 ```
 
 ## `nrow` 引数で行数を制御
 
-```{r, message = FALSE, fig.height = 4}
-last_plot() + 
-  facet_wrap(~ key, scales = 'free_x', nrow = 2)
+```{r, fig.height = 4}
+last_plot() + facet_wrap(~ key, scales = 'free_x', nrow = 2)
 ```
 
 ## `ncol` 引数で列数を制御
 
-```{r, message = FALSE, fig.height = 4}
+```{r, fig.height = 4}
 last_plot() + facet_wrap(~ key, scales = 'free_x', ncol = 3)
 ```
 
@@ -446,7 +450,7 @@ last_plot() + facet_wrap(~ key, scales = 'free_x', ncol = 3)
 
 変数が多いとfacet_gridは辛い
 
-```{r, fig.height = 3, message = FALSE}
+```{r, fig.height = 3}
 last_plot() + facet_grid(. ~ key, scales = 'free_x')
 ```
 
@@ -469,13 +473,55 @@ ggplot(longcars, aes(x = val, y = mpg, colour = am, shape = vs)) +
 
 # facet逆引き
 
-## 並び順を反転したい
+## 並び順を反転したい (`as.table = FALSE`) {#as-table}
+
+```r
+# 既定値はTRUE
+ggplot(minicars, aes(mpg)) + geom_histogram() + ggtitle('as.table = TRUE') +
+  facet_wrap(~ vs, ncol = 1, as.table = TRUE) 
+
+# FALSEにしてみる
+ggplot(minicars, aes(mpg)) + geom_histogram() + ggtitle('as.table = FALSE') +
+  facet_wrap(~ vs, ncol = 1, as.table = FALSE)
+```
+
+```{r, echo = FALSE, fig.height = 3}
+patchwork::wrap_plots(
+  # 既定値はTRUE
+  ggplot(minicars, aes(mpg)) + geom_histogram() +
+    facet_wrap(~ vs, ncol = 1, as.table = TRUE) +
+    ggtitle('as.table = TRUE'),
+  # FALSEにしてみる
+  ggplot(minicars, aes(mpg)) + geom_histogram() +
+    facet_wrap(~ vs, ncol = 1, as.table = FALSE) +
+    ggtitle('as.table = FALSE'),
+  nrow = 1
+)
+```
+
+
 
 ## 並び順を制御したい
 
+facetする変数をfactor型にすると、levels順になる。  
+factorの操作には`forcats` パッケージが便利 (参考: [ぞうさんの記事](https://kazutan.github.io/kazutanR/forcats_test.html))
+
+```{r, fig.height = 3}
+library(forcats)
+minicars2 <- minicars %>%
+  mutate(vs = forcats::fct_relevel(vs, 'V-shaped'))
+ggplot(minicars2, aes(mpg)) +
+  geom_histogram() +
+  facet_wrap(~ vs, ncol = 1)
+```
+
+Tip: 凡例などの順序もfactorで制御できる
+
 ## stripで図a, b, ...したい
 
-```{r, fig.height = 3, message = FALSE}
+facetする変数を予め整形しておく
+
+```{r, fig.height = 3}
 minicars2 <- minicars %>%
   mutate(vs = paste0('(', letters[factor(vs)], ') ', vs))
 ggplot(minicars2, aes(mpg)) +
@@ -483,25 +529,25 @@ ggplot(minicars2, aes(mpg)) +
   facet_wrap(~ vs, ncol = 1)
 ```
 
-## 未分割の図も並べる (`margins` 引数) {#margins1}
+## 未分割の図も並べる (`margins = TRUE`) {#margins1}
 
 `facet_grid` 専用
 
-```{r, fig.height = 3, message = FALSE}
+```{r, fig.height = 3}
 ggplot(minicars, aes(mpg, fill = vs)) +
   geom_histogram() +
   facet_grid(vs ~ ., margins = TRUE)
 ```
 
-## 未分割の図も並べる (`margin` 引数) {#margin2}
+## 未分割の図も並べる (`margins = TRUE`) {#margin2}
 
 審美的属性にも使う変数でfacetする場合は、  
-その変数のコピーを作っておくといい
+その変数のコピーでfacetする
 
-```{r, fig.height = 3, message = FALSE}
-minicars %>%
-  mutate(facet = vs) %>%
-  ggplot(aes(mpg, fill = vs)) +
+```{r, fig.height = 3}
+minicars2 <- minicars %>%
+  mutate(facet = vs)
+ggplot(minicars2, aes(mpg, fill = vs)) +
   geom_histogram() +
   facet_grid(facet ~ ., margins = TRUE)
 ```
@@ -510,7 +556,7 @@ minicars %>%
 
 `facet_grid` でも `facet_wrap` でも使える
 
-```{r, fig.height = 3, message = FALSE}
+```{r, fig.height = 3}
 minicars2 <- minicars %>%
   mutate(facet = vs) %>%
   bind_rows(mutate(., facet = 'All'))
@@ -521,7 +567,7 @@ ggplot(minicars2, aes(mpg, fill = vs)) +
 
 ## 異種の図を並べたい
 
-```{r, fig.height = 2, warning = FALSE, message = FALSE}
+```{r, fig.height = 2, warning = FALSE}
 minicars %>%
   transmute(mpg, hist = 1, dens = NA_integer_) %>%
   bind_rows(mutate(., hist = NA_integer_, dens = 1)) %>%
@@ -565,12 +611,12 @@ factorでfacetした時データに     **drop**            **drop**
 分割前の図も並べる              margins          
 ----------------------------------------------------------------
 
-赤字は紹介していないもの
+**赤字** は未紹介・ ~~打ち消し~~ は Deprecated
 
 
-# Hello, `patchwork` package
+# `patchwork` で自由に図を並べる
 
-## What is
+## {#patchwork}
 
 ```{r echo = FALSE}
 include_graphics('https://github.com/thomasp85/patchwork/blob/master/man/figures/logo.png?raw=true')
@@ -628,6 +674,8 @@ p3 / (p1 | p4) | p2
 ```
 
 もうちょっと良いスペーサーが欲しい (xx)
+
+周辺分布なら `ggExtra::ggMarginal` 
 
 ## 全体のテーマを変える
 
@@ -689,9 +737,56 @@ p1 / p5
 
 ## 多くパッケージで標準的な並べ方
 
-```{r, fig.height = 3}
+```{r, message = FALSE, fig.height = 3}
 library(gridExtra)
 grid.arrange(p1, p5, ncol = 1)
 ```
 
-# Enjoy
+# まとめ
+
+## 使い分けが肝心 {#up-to-you}
+
+<br/>
+
+            データ  図の種類  並べかた  軸の表示
+----------- ------- --------- --------- ---------------
+facet_grid  同じ    同じ      表形式    端のみ
+facet_wrap  同じ    同じ      改行      scales引数次第
+patchwork   自由    自由      自由      全て
+
+<br/>
+
+- 工夫次第ではfacetも異なるデータや図を扱える
+- patchworkは自由度が高いが、  
+  並べる図を一つずつ作る必要がある
+
+<br/>
+
+## Enjoy !
+
+```{r, echo = FALSE}
+p <- ggplot(mtcars, aes(mpg)) + 
+  geom_histogram() +
+  theme(axis.title = element_blank())
+r <- c(1, 0.5 + sqrt(1.25) - 1)
+r2 <- rev(r)
+
+A <- function(x, .r = r) {
+  wrap_plots(p, x, nrow = 1, widths = .r)
+}
+
+B <- function(x, .r = r) {
+  wrap_plots(p, x, ncol = 1, heights = .r)
+}
+
+C <- function(x, .r = r2) {
+  wrap_plots(x, p, nrow = 1, widths = .r)
+}
+
+D <- function(x, .r = r2) {
+  wrap_plots(x, p, ncol = 1, heights = .r)
+}
+
+A(B(C(D(A(B(C(D(p))))))))
+```
+
