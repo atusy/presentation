@@ -28,8 +28,8 @@ formals(geom_histogram)$bins <- 30
 
 - R一筋5年
     - データ可視化の効率化がきっかけ
-    - Tidyverse歴3年くらい
-    - JuliaとかPythonとかやるやる詐欺してます
+    - ggplot2を含めTidyverse歴約3年
+- JuliaとかPythonとかやるやる詐欺してます
 - Tokyo R は #72 以来2回目
 - (株) 蒜山地質年代学研究所
     - 地質試料の化学分析
@@ -55,13 +55,15 @@ http://www.minsocam.org/MSA/Ammin/AM_Notable_Articles.html
 
 </div>
 
+私のggplot2力はこの論文に鍛えられた
+
 <aside class="notes">
 最近嬉しかったことは，今月公開の投稿論文がEditor's choiceになったことです．
 </aside>
 
 # 色々な図の並べ方
 
-## ある変量について集団ごとのヒストグラム
+## ある変数について集団ごとのヒストグラム
 
 ```{r, echo = FALSE}
 mtcars %>%
@@ -135,7 +137,7 @@ hist(d$hp, breaks = 30, main = NULL, xlab = 'Horse power', xlim = c(50, 350))
 ```
 
 
-# 今日使うデータセット <br> `mtcars` and their friends
+# 今日使うデータセット <br> **mtcars** and their friends
 
 <aside class="notes">
 
@@ -186,12 +188,39 @@ minicars$vs <- ifelse(mtcars$vs == 1, 'Straight', 'V-shaped')
 minicars$am <- ifelse(mtcars$am == 1, 'Manual', 'Automatic')
 ```
 
-## データ整形 (minicars → longcars)
+##  データ整形 (minicars → longcars)
 
-```{r}
+```{r, results = 'hide'}
 library(tidyr)
-longcars <- gather(minicars, key = var, value = val, -am, -vs, -mpg)
+longcars <- gather(minicars, var, val, -am, -vs, -mpg)
+# wt列とhp列がの列名がvar列の値に、それぞれの値がval列に入る
 ```
+
+<div class = 'left', style = 'color:#CCCCCC;font-size:80%' />
+
+minicars
+
+```{r, echo = FALSE}
+knitr::kable(minicars[1:4, ])
+```
+
+</div>
+
+<div class = 'right', style = 'font-size:80%' />
+
+longcars
+
+```{r, echo = FALSE}
+knitr::kable(gather(minicars[1:4, ], var, val, -am, -vs, -mpg))
+```
+
+</div>
+
+## tidyr::gather (とspread)
+
+各列の名前をkey列の値に、値をval列にまとめる。  
+`-列名` で、`gather`しない変数を指定できる。  
+`spread` で戻せる。
 
 <div class = 'left' />
 
@@ -219,9 +248,6 @@ kable(gather(wide, key, value, -a))
 ```
 
 </div>
-
-
-
 
 ## longcarsはこんな感じ
 
