@@ -1,0 +1,315 @@
+---
+title: |
+  Japan.R 2018 LT \
+  \
+  **関数魔改造講座** \
+  <!-- **(変態編)** \ -->
+author: |
+  \
+  atusy
+date: 2018-10-20
+output:
+  revealjs::revealjs_presentation:
+    center: true
+    theme: night
+    reveal_options:
+      slideNumber: true
+    css: style.css
+    self_contained: false
+---
+
+```{r setup, include = FALSE}
+library(japanr2018)
+library(pacman)
+p_load(knitr, skimr, magrittr, ggplot2)
+theme_set(theme_classic())
+opts_chunk$set(cache = TRUE)
+```
+
+## atusy 
+
+![](../headphone.jpg){width=10%}
+
+- R歴5年
+- 11月から Julia 始めました!
+- 初Japan R
+- Tokyo R 73で
+  [`ggplot2` で図を並べる](https://atusy.github.io/presentation/tokyor073/tokyor073-multi-ggplot2.html#/)
+  話をした
+- [(株) 蒜山地質年代学研究所](http://geohiruzen.co.jp/)
+    - 所在地は岡山市内
+    - 業務
+        - 地質試料の化学分析
+        - データ解析用Rパッケージ開発
+- `blogdown` で
+  [blogしてます](https://atusy.github.io/blog/)
+- [Atsushi776](https://twitter.com/Atsushi776) on Twitter
+
+## {#tweet-yuta-mona}
+
+[![](tweet-yutannihilation-teramonagi.png)](https://twitter.com/teramonagi/status/1013232146234802176)
+
+## {#tweet-vote}
+
+[![](tweet-atusy.png)](https://twitter.com/Atsushi776/status/1061575277724151808)
+
+# 関数改造事始 {#intro}
+
+## 改造は人の業 {#karma}
+
+<div style ="text-align:left">
+
+![recyclebin](https://avatars0.githubusercontent.com/u/1556020?s=84&v=4){width=50px}
+[有意差でたよっ](https://blog.recyclebin.jp/archives/4369)
+
+![hoxo-m](https://warehouse-camo.cmh1.psfhosted.org/d213507379ee6393dc127f8861f95b770b3659c3/68747470733a2f2f7365637572652e67726176617461722e636f6d2f6176617461722f33363738623535353138303138643964653462353230313933653039393436653f73697a653d323235){width=50px}
+[R で関数のデフォルト引数を変更する(魔改造編)](https://qiita.com/hoxo_m/items/cada02d3ec47e5b9c9b9)
+
+![yutannihilation](https://avatars0.githubusercontent.com/u/1978793?s=400&v=4){width=50px}
+[メモ：httr::oauth2.0_token()のredirect_uriを変える](https://notchained.hatenablog.com/entry/2016/03/21/211535)
+
+![niszet0](https://avatars3.githubusercontent.com/u/28832585?s=400&v=4){width=50px}
+[(R) skimrの表示をカスタマイズしたい 3回目（追記修正）](https://niszet.hatenablog.com/entry/2018/02/26/073000)
+
+</div>
+
+## 関数改造パッケージ {#fixer}
+
+### [hoxo-m/fixer](https://github.com/hoxo-m/fixer)
+
+## ラッパー関数で改造 {#wrapper}
+
+```r
+f <- function(a) a + 1 
+f()  # `Error in f() : argument "a" is missing, with no default`
+f(1) # [1] 2
+
+f_hex <- function(hex = "f") { # 引数名の変更と初期値の設定
+  strtoi(hex, 16) %>% # 前処理
+    f() %>%
+      as.hexmode() # 後処理
+}
+
+f_hex()          # [1] "10"
+f_hex(hex = "a") # [1] "b"
+```
+
+## 関数の構成要素を魔改造 {#components-of-function}
+
+構成要素| | > identity
+:---|:---|:---
+**formals** | 引数のリスト | function (**x**)
+body | 関数内のコード | x
+environment | 関数を格納した変数の居場所 | <environment: namespace:base>
+
+## + 名前空間に殴り込み {#assignInNamespace}
+
+`assignInNamespace()`
+
+- `@export` されていない変数も弄れる
+- `lockBinding()` / `unlockBinding()` \
+  を操ることが必要な場合あり
+- 殴り込んだ変数を参照する \
+  全ての変数が影響を受ける
+- 元に戻すにはRを再起動する
+- パッケージを遡及して \
+  殴り込む必要があったらどうする？
+
+## {#goal}
+
+### `formals` を弄って
+### `assignInNamespace()` せずに
+### 内部変数も含めて挙動を弄ろう
+
+# `package:japanr2018` {#japanr2018}
+
+## インストール & 読み込み {#jr18-install}
+
+```r
+devtools::install_github(
+  "atusy/presentation",
+  subdir = "japanr2018/pkg"
+)
+
+library(japanr2018)
+```
+
+
+## 中身 {#jr18-content}
+
+```{r code-japanr2018, include = FALSE}
+(code <- readLines("./pkg/R/source.R"))
+```
+
+
+```{r view-japanr2018, code = code, eval = FALSE}
+
+```
+
+## `namespace:japanr2018` に隔離 {#jr18-env}
+
+```{r f-in-global}
+f
+f <- 1
+f
+```
+
+```{r f-in-japanr2018}
+japanr2018::f
+```
+
+`japanr2018::f` は上書きされない
+
+```{r rm-f-in-global, include = FALSE}
+rm(f)
+```
+
+
+# 既存の引数を弄る {#edit}
+
+## `formals()` で関数の引数を確認する {#formals-of-f}
+
+```{r}
+str(formals(japanr2018::f))
+```
+
+ヘンなリストだけどリストのノリで弄れる。
+
+## 弄るには`formals<-` {#assign-formals}
+
+### `names<-` みたいに使える {#assign-names}
+
+```{r}
+(x <- 1)
+names(x) <- "a"
+x
+```
+
+## 既定値として値を代入 {#edit-default-value}
+
+```{r}
+f <- japanr2018::f
+formals(f)$a <- 1
+formals(f)
+f()
+```
+
+Yes!!
+
+## 既定値として表現を代入
+
+```{r}
+f <- japanr2018::f
+formals(f)$a <- rnorm(10)
+formals(f)
+f()
+f()
+```
+
+Hmmmm......
+
+## `alist` を使って再挑戦
+
+```{r}
+f <- japanr2018::f
+formals(f)$a <- alist(a = rnorm(10))$a
+formals(f)
+f()
+f()
+```
+
+Yupppyyyyy!!
+
+## `?formals` にも載ってる {#help-formals}
+
+<div style="text-align:left">
+> You can overwrite the formal arguments of a function (though this is advanced, **dangerous** coding). \
+> `f <- function(x) a + b` \
+> `formals(f) <- alist(a = , b = 3)` \
+> `f    # function(a, b = 3) a + b` \
+> `f(2) # result = 5`
+</div>
+
+# 引数を追加する {#black-magick}
+
+## 確認 {#check-f-and-b}
+
+```{r}
+japanr2018::f
+```
+
+```{r}
+japanr2018:::b
+```
+
+## `b` を `a` と同じ長さの乱数にしたい {#randomize-b}
+
+```{r}
+f <- japanr2018::f
+formals(f)$b <- alist(b = runif(length(a)))$b
+f(1:10)
+```
+
+## `+` じゃなくて `*` がいい {#want-product}
+
+```{r}
+f <- japanr2018::f
+formals(f)$`+` <- `*`
+f(1)
+```
+
+# 応用
+
+## `ggplot2::stat_density` から <br> `stat_ci` を作る
+
+```{r}
+ggplot2::stat_density # コピペ & 目sedは嫌だ
+```
+
+## {#implement-stat-ci}
+
+`stat_density()` の中で呼び出される `StatDensity` の参照先を、
+`ggplot2::StatDensity` から、引数の `StatDensity = StatCI` に変えてしまう。
+
+```{r, fig.height = 2}
+library(ggplot2)
+stat_ci <- ggplot2::stat_density
+formals(stat_ci) <- c(formals(stat_ci), StatDensity = ggAtusy::StatCI)
+ggplot(data.frame(x = rnorm(1e5)), aes(x)) +
+  geom_density() +
+  stat_ci()
+```
+
+
+## `skimr::inline_hist()` のビン数を変更 {#modify-inline-hist}
+
+一行の文字列でヒストグラムを作ってくれるが、 \
+ビン数は内部変数の `options` が固定している
+
+```{r}
+library(skimr)
+skimr::inline_hist(iris$Petal.Length)
+myopt <- rlang::env_clone(skimr:::options)
+inline_hist <- skimr::inline_hist
+myopt$formats$character$width <- 20
+formals(inline_hist)$options = myopt
+inline_hist(iris$Petal.Length)
+```
+
+## S3メソッドを手抜きして作る {#easy-s3}
+
+```{r}
+print.atusy <- function() {
+  cat("Printing atusy class object.\n")
+  NextMethod()
+}
+formals(print.atusy) <- formals(print)
+structure(1, class = "atusy")
+```
+
+S3メソッドは最低でも、 \
+総称関数と同じ引数を持たなければならない
+
+`formals<-` を使えば総称関数の引数を丸々引き継げる
+
+
