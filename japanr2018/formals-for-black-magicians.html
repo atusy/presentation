@@ -797,49 +797,57 @@ atusy</h2>
 <p><code>stat_density()</code> が呼び出す <code>StatDensity</code> を、<br />
 <code>ggplot2::StatDensity</code> から、<br />
 引数の <code>StatDensity = StatCI</code> に摩り替える。</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2">stat_ci &lt;-<span class="st"> </span>stat_density</a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="kw">formals</span>(stat_ci) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">formals</span>(stat_ci), <span class="dt">StatDensity =</span> ggAtusy<span class="op">::</span>StatCI)</a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="kw">ggplot</span>(<span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="fl">1e5</span>)), <span class="kw">aes</span>(x)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="st">  </span><span class="kw">stat_ci</span>()</a></code></pre></div>
 <p><img src="formals-for-black-magicians_files/figure-revealjs/stat-ci-1.png" width="768" /></p>
 <p><a href="https://github.com/atusy/ggAtusy/blob/master/R/stat_ci.R">実際には <code>StatDensity</code> 引数を弄れないよう、もう一工夫した。</a></p>
-<p>遊び半分の実装です。<br />
-実用的には <a href="https://cran.r-project.org/web/packages/ggdistribute/vignettes/geom_posterior.html"><code>ggdistribute</code></a> や <a href="https://cran.r-project.org/web/packages/bayesplot/vignettes/plotting-mcmc-draws.html"><code>bayseplot</code></a> があります。</p>
+</section><section id="disclaimer" class="slide level2">
+<h2>Disclaimer</h2>
+<p>遊び半分の実装です。</p>
+<p>実用的には <a href="https://cran.r-project.org/web/packages/ggdistribute/vignettes/geom_posterior.html"><code>ggdistribute</code></a> や <a href="https://cran.r-project.org/web/packages/bayesplot/vignettes/plotting-mcmc-draws.html"><code>bayseplot</code></a> があります。</p>
 </section></section>
 <section><section id="modify-inline-hist" class="title-slide slide level1"><h1>応用2 <br> <code>skimr::inline_hist()</code> の <br /> ビン数を変更</h1></section><section id="modify-options-in-skimr" class="slide level2">
 <h2>内部変数 <code>optioins</code> を弄る</h2>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">library</span>(skimr)</a>
-<a class="sourceLine" id="cb31-2" data-line-number="2">skimr<span class="op">::</span><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">library</span>(skimr)</a>
+<a class="sourceLine" id="cb32-2" data-line-number="2">skimr<span class="op">::</span><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length)</a></code></pre></div>
 <pre><code>## ▇▁▁▂▅▅▃▁</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">myopt &lt;-<span class="st"> </span>rlang<span class="op">::</span><span class="kw">env_clone</span>(skimr<span class="op">:::</span>options)</a>
-<a class="sourceLine" id="cb33-2" data-line-number="2">inline_hist &lt;-<span class="st"> </span>skimr<span class="op">::</span>inline_hist</a>
-<a class="sourceLine" id="cb33-3" data-line-number="3">myopt<span class="op">$</span>formats<span class="op">$</span>character<span class="op">$</span>width &lt;-<span class="st"> </span><span class="dv">20</span></a>
-<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="kw">formals</span>(inline_hist)<span class="op">$</span>options =<span class="st"> </span>myopt</a>
-<a class="sourceLine" id="cb33-5" data-line-number="5"><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">myopt &lt;-<span class="st"> </span>rlang<span class="op">::</span><span class="kw">env_clone</span>(skimr<span class="op">:::</span>options)</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">inline_hist &lt;-<span class="st"> </span>skimr<span class="op">::</span>inline_hist</a>
+<a class="sourceLine" id="cb34-3" data-line-number="3">myopt<span class="op">$</span>formats<span class="op">$</span>character<span class="op">$</span>width &lt;-<span class="st"> </span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="kw">formals</span>(inline_hist)<span class="op">$</span>options =<span class="st"> </span>myopt</a>
+<a class="sourceLine" id="cb34-5" data-line-number="5"><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length)</a></code></pre></div>
 <pre><code>## ▁▇▂▁▁▁▁▁▁▁▃▃▃▅▂▃▂▁▁▁</code></pre>
 <div style="text-align:right">
 <p><a href="https://niszet.hatenablog.com/entry/2018/02/26/073000">Inspired by <img data-src="https://avatars3.githubusercontent.com/u/28832585?s=400&amp;v=4" alt="niszet0" width="30" /></a></p>
 </div>
 </section><section id="dynamic-options" class="slide level2">
 <h2>動的に <code>optioins</code> を弄る</h2>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">inline_hist &lt;-<span class="st"> </span>skimr<span class="op">::</span>inline_hist</a>
-<a class="sourceLine" id="cb35-2" data-line-number="2">.options &lt;-<span class="st"> </span><span class="cf">function</span>(n) {</a>
-<a class="sourceLine" id="cb35-3" data-line-number="3">  options &lt;-<span class="st"> </span>rlang<span class="op">::</span><span class="kw">env_clone</span>(skimr<span class="op">:::</span>options)</a>
-<a class="sourceLine" id="cb35-4" data-line-number="4">  options<span class="op">$</span>formats<span class="op">$</span>character<span class="op">$</span>width &lt;-<span class="st"> </span>n</a>
-<a class="sourceLine" id="cb35-5" data-line-number="5">  options</a>
-<a class="sourceLine" id="cb35-6" data-line-number="6">}</a>
-<a class="sourceLine" id="cb35-7" data-line-number="7"><span class="kw">formals</span>(inline_hist)[<span class="kw">c</span>(<span class="st">&quot;n&quot;</span>, <span class="st">&quot;options&quot;</span>)] =<span class="st"> </span><span class="kw">alist</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">options =</span> <span class="kw">.options</span>(n))</a>
-<a class="sourceLine" id="cb35-8" data-line-number="8"><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length)</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">inline_hist &lt;-<span class="st"> </span>skimr<span class="op">::</span>inline_hist</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">.options &lt;-<span class="st"> </span><span class="cf">function</span>(n) {</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">  options &lt;-<span class="st"> </span>rlang<span class="op">::</span><span class="kw">env_clone</span>(skimr<span class="op">:::</span>options)</a>
+<a class="sourceLine" id="cb36-4" data-line-number="4">  options<span class="op">$</span>formats<span class="op">$</span>character<span class="op">$</span>width &lt;-<span class="st"> </span>n</a>
+<a class="sourceLine" id="cb36-5" data-line-number="5">  options</a>
+<a class="sourceLine" id="cb36-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb36-7" data-line-number="7"><span class="kw">formals</span>(inline_hist)[<span class="kw">c</span>(<span class="st">&quot;n&quot;</span>, <span class="st">&quot;options&quot;</span>)] =<span class="st"> </span><span class="kw">alist</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">options =</span> <span class="kw">.options</span>(n))</a>
+<a class="sourceLine" id="cb36-8" data-line-number="8"><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length)</a></code></pre></div>
 <pre><code>## ▇▃▁▁▂▆▆▃▂▁</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length, <span class="dv">20</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length, <span class="dv">20</span>)</a></code></pre></div>
 <pre><code>## ▁▇▂▁▁▁▁▁▁▁▃▃▃▅▂▃▂▁▁▁</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length, <span class="dv">30</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length, <span class="dv">30</span>)</a></code></pre></div>
 <pre><code>## ▁▃▇▃▁▁▁▁▁▁▁▁▁▁▁▂▂▃▂▃▃▁▂▃▂▂▁▁▁▁</code></pre>
 </section></section>
 <section><section id="lazy-programming" class="title-slide slide level1"><h1>応用3 <br /> 関数を手抜きして作る</h1></section><section id="easy-s3" class="slide level2">
 <h2>S3メソッドを手抜きして作る</h2>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">print.atusy &lt;-<span class="st"> </span><span class="cf">function</span>() {</a>
-<a class="sourceLine" id="cb41-2" data-line-number="2">  <span class="kw">cat</span>(<span class="st">&quot;Printing atusy class object.</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb41-3" data-line-number="3">  <span class="kw">NextMethod</span>()</a>
-<a class="sourceLine" id="cb41-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb41-5" data-line-number="5"><span class="kw">formals</span>(print.atusy) &lt;-<span class="st"> </span><span class="kw">formals</span>(print)</a>
-<a class="sourceLine" id="cb41-6" data-line-number="6"><span class="kw">structure</span>(<span class="dv">1</span>, <span class="dt">class =</span> <span class="st">&quot;atusy&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">print.atusy &lt;-<span class="st"> </span><span class="cf">function</span>() {</a>
+<a class="sourceLine" id="cb42-2" data-line-number="2">  <span class="kw">cat</span>(<span class="st">&quot;Printing atusy class object.</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb42-3" data-line-number="3">  <span class="kw">NextMethod</span>()</a>
+<a class="sourceLine" id="cb42-4" data-line-number="4">}</a>
+<a class="sourceLine" id="cb42-5" data-line-number="5"><span class="kw">formals</span>(print.atusy) &lt;-<span class="st"> </span><span class="kw">formals</span>(print)</a>
+<a class="sourceLine" id="cb42-6" data-line-number="6"><span class="kw">structure</span>(<span class="dv">1</span>, <span class="dt">class =</span> <span class="st">&quot;atusy&quot;</span>)</a></code></pre></div>
 <pre><code>## Printing atusy class object.
 ## [1] 1
 ## attr(,&quot;class&quot;)
