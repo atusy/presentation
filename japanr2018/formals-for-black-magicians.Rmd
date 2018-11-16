@@ -203,17 +203,17 @@ f()
 
 ## 確認 {#check-f-and-b}
 
-```{r}
+```{r chk-jr18-f}
 japanr2018::f
 ```
 
-```{r}
+```{r chk-jr18-b}
 japanr2018:::b
 ```
 
 ## `b` を `a` と同じ長さの乱数にしたい {#randomize-b}
 
-```{r}
+```{r randomize-b}
 f <- japanr2018::f
 formals(f)$b <- alist(b = runif(length(a)))$b
 f(1:10)
@@ -222,7 +222,7 @@ f(1:10)
 
 ## `+` じゃなくて `*` がいい {#want-product}
 
-```{r}
+```{r want-product}
 f <- japanr2018::f
 formals(f)$`+` <- `*`
 f(1)
@@ -235,7 +235,7 @@ f(1)
 
 ## `japanr2018::g` は影響を受けない
 
-```{r}
+```{r g-not-affected}
 japanr2018::g(1) # g = function(a) f(a)
 ```
 
@@ -262,7 +262,7 @@ japanr2018::g(1) # g = function(a) f(a)
 
 ## `ggplot2::stat_density` を <br> `stat_ci` に改造する {#stat-ci-goal}
 
-```{r}
+```{r #code-stat-density}
 ggplot2::stat_density # コピペ & 目sedは嫌だ
 ```
 
@@ -296,7 +296,7 @@ ggplot(data.frame(x = rnorm(1e5)), aes(x)) +
 
 ## 内部変数 `optioins` を弄る {#modify-options-in-skimr}
 
-```{r}
+```{r inline-hist-10}
 library(skimr)
 skimr::inline_hist(iris$Petal.Length)
 myopt <- rlang::env_clone(skimr:::options)
@@ -312,7 +312,7 @@ inline_hist(iris$Petal.Length)
 
 ## 動的に `optioins` を弄る {#dynamic-options}
 
-```{r}
+```{r inline-hist-any}
 inline_hist <- skimr::inline_hist
 .options <- function(n) {
   options <- rlang::env_clone(skimr:::options)
@@ -330,7 +330,7 @@ inline_hist(iris$Petal.Length, 30)
 
 ## S3メソッドを手抜きして作る {#easy-s3}
 
-```{r}
+```{r s3}
 print.atusy <- function() {
   cat("Printing atusy class object.\n")
   NextMethod()
