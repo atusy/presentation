@@ -567,7 +567,7 @@ atusy</h2>
 <p><img data-src="https://avatars3.githubusercontent.com/u/28832585?s=400&amp;v=4" alt="niszet0" width="50" /> <a href="https://niszet.hatenablog.com/entry/2018/02/26/073000">(R) skimrの表示をカスタマイズしたい 3回目（追記修正）</a></p>
 </div>
 </section><section id="wrapper" class="slide level2">
-<h2>ラッパー関数</h2>
+<h2>ラッパー関数を作る</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">f &lt;-<span class="st"> </span><span class="cf">function</span>(a) a <span class="op">+</span><span class="st"> </span><span class="dv">1</span> </a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">f_hex &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">hex =</span> <span class="st">&quot;f&quot;</span>) { <span class="co"># 引数名の変更と初期値の設定</span></a>
@@ -578,12 +578,12 @@ atusy</h2>
 <a class="sourceLine" id="cb1-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">f_hex</span>(<span class="st">&quot;a&quot;</span>) <span class="co"># [1] &quot;b&quot;</span></a></code></pre></div>
 </section><section id="assignInNamespace" class="slide level2">
-<h2>名前空間に殴り込み</h2>
+<h2>名前空間に殴り込む</h2>
 <p><code>assignInNamespace()</code></p>
 <ul>
 <li>メリット
 <ul>
-<li>内部変数も弄れる</li>
+<li>内部変数を弄ることも含め、何でもできる</li>
 <li><code>formals</code> が対象なら便利なパッケージがある<br />
 (<a href="https://github.com/hoxo-m/fixer">hoxo-m/fixer</a>)</li>
 </ul></li>
@@ -593,7 +593,7 @@ atusy</h2>
 </ul></li>
 </ul>
 </section><section id="components-of-function" class="slide level2">
-<h2>関数の構成要素を魔改造</h2>
+<h2>関数の構成要素を魔改造する</h2>
 <table>
 <thead>
 <tr class="header">
@@ -710,7 +710,7 @@ atusy</h2>
 <h2>確認</h2>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">japanr2018<span class="op">::</span>f</a></code></pre></div>
 <pre><code>## function(a) a + b
-## &lt;bytecode: 0x66d37e0&gt;
+## &lt;bytecode: 0x4b4b6f8&gt;
 ## &lt;environment: namespace:japanr2018&gt;</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">japanr2018<span class="op">:::</span>b</a></code></pre></div>
 <pre><code>## [1] 1</code></pre>
@@ -790,7 +790,7 @@ atusy</h2>
 ##             kernel = kernel, n = n, trim = trim, na.rm = na.rm, 
 ##             ...))
 ## }
-## &lt;bytecode: 0x5548c90&gt;
+## &lt;bytecode: 0x5fe15d0&gt;
 ## &lt;environment: namespace:ggplot2&gt;</code></pre>
 </section><section id="implement-stat-ci" class="slide level2">
 <h2></h2>
