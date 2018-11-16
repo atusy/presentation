@@ -274,7 +274,7 @@ ggplot2::stat_density # コピペ & 目sedは嫌だ
 
 
 
-```{r stat-ci, echo = FALSE, fig.height = 2}
+```{r stat-ci, fig.height = 2}
 library(ggplot2)
 stat_ci <- stat_density
 formals(stat_ci) <- c(formals(stat_ci), StatDensity = ggAtusy::StatCI)
@@ -285,7 +285,10 @@ ggplot(data.frame(x = rnorm(1e5)), aes(x)) +
 
 [実際には `StatDensity` 引数を弄れないよう、もう一工夫した。](https://github.com/atusy/ggAtusy/blob/master/R/stat_ci.R)
 
-遊び半分の実装です。 \
+## Disclaimer
+
+遊び半分の実装です。
+
 実用的には 
 [`ggdistribute`](https://cran.r-project.org/web/packages/ggdistribute/vignettes/geom_posterior.html)
 や
