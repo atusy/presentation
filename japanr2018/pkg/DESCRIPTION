@@ -1,0 +1,12 @@
+Package: japanr2018
+Title: A package for japanr2018
+Version: 0.0.0.9000
+Authors@R: 
+  person(given = "YASUMOTO, Atsushi",
+         role = c("aut", "cre"),
+         email = "30277794+atusy@users.noreply.github.com")
+Description: Nothing useful.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.0
