@@ -7,7 +7,7 @@ title: |
 author: |
   \
   atusy
-date: 2018-10-20
+date: 2018-11-30
 output:
   revealjs::revealjs_presentation:
     center: true
