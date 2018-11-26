@@ -22,6 +22,18 @@
 
 .reveal section img { border:none }
 
+.reveal pre {
+  font-size: 1em;
+}
+
+.reveal pre code {
+  max-height: 500px;
+  background: none;
+}
+
+.reveal code {
+  background: #66666666;
+}
 
 .reveal h1 {
   margin: 0 0 10 0;

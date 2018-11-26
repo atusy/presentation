@@ -44,7 +44,7 @@ opts_chunk$set(cache = TRUE)
         - データ解析用Rパッケージ開発
 - `blogdown` で
   [blogしてます](https://atusy.github.io/blog/)
-- [Atsushi776](https://twitter.com/Atsushi776) on Twitter
+- @[Atsushi776](https://twitter.com/Atsushi776) on Twitter
 
 ## {#tweet-yuta-mona}
 
@@ -79,18 +79,19 @@ opts_chunk$set(cache = TRUE)
 ```r
 f <- function(a) a + 1 
 
-f_hex <- function(hex = "f") { # 引数名の変更と初期値の設定
-  strtoi(hex, 16) %>% # 前処理
-    f() %>%
-      as.hexmode() # 後処理
-}
+f_hex <- 
+  function(hex = "f") { # 引数名変更 & 初期値設定
+    strtoi(hex, 16) %>% # 前処理
+      f() %>%
+        as.hexmode() # 後処理
+  }
 
 f_hex("a") # [1] "b"
 ```
 
 ## 名前空間に殴り込む {#assignInNamespace}
 
-`assignInNamespace()`
+`assignInNamespace()`{.r}
 
 - メリット
     - 内部変数を弄ることも含め、何でもできる
@@ -109,11 +110,11 @@ environment | 関数を格納した変数の居場所 | <environment: namespace:
 
 ## {#goal}
 
-### `formals` を弄って
-### `assignInNamespace()` せずに
+### `formals()`{.r} を弄って
+### `assignInNamespace()`{.r} せずに
 ### 内部変数も含めて挙動を弄ろう
 
-# `package:japanr2018` {#japanr2018}
+# `package:japanr2018`{.r} {#japanr2018}
 
 ## インストール & 読み込み {#jr18-install}
 
@@ -138,7 +139,7 @@ library(japanr2018)
 
 ```
 
-## `namespace:japanr2018` に隔離 {#jr18-env}
+## `namespace:japanr2018`{.r} に隔離 {#jr18-env}
 
 ```r
 f
@@ -156,11 +157,11 @@ japanr2018::f
 # <environment: namespace:japanr2018>
 ```
 
-`japanr2018::f` は上書きされない
+`japanr2018::f`{.r} は上書きされない
 
 # 既存の引数を弄る {#edit}
 
-## `formals()` で関数の引数を確認する {#formals-of-f}
+## `formals()`{.r} で関数の引数を確認する {#formals-of-f}
 
 ```r
 str(formals(japanr2018::f))
@@ -170,7 +171,7 @@ str(formals(japanr2018::f))
 
 ヘンなリストだけどリストのノリで弄れる。
 
-## 弄るには`formals<-` {#assign-formals}
+## 弄るには`` `formals<-` ``{.r} {#assign-formals}
 
 ```{r assign-formals}
 f <- japanr2018::f
@@ -179,24 +180,23 @@ formals(f)
 f()
 ```
 
-## `alist` を使うと遅延評価もできる {#lazy-eval}
+## `alist()`{.r} を使うと遅延評価できる {#lazy-eval}
 
 ```{r assign-formals-with-alist}
 f <- japanr2018::f
-formals(f)$a <- alist(a = rnorm(10))$a
-formals(f)
+(formals(f)$a <- alist(a = rnorm(1))$a)
 f()
 f()
 ```
 
-## `?formals` にも載ってる {#help-formals}
+## `?formals`{.r} にも載ってるアブナい技 {#help-formals}
 
 <div style="text-align:left">
-> You can overwrite the formal arguments of a function (though this is advanced, **dangerous** coding). \
-> `f <- function(x) a + b` \
-> `formals(f) <- alist(a = , b = 3)` \
-> `f    # function(a, b = 3) a + b` \
-> `f(2) # result = 5`
+> You can overwrite the formal arguments of a function (though this is advanced, dangerous coding). \
+> `f <- function(x) a + b`{.r} \
+> `formals(f) <- alist(a = , b = 3)`{.r} \
+> `f    # function(a, b = 3) a + b`{.r} \
+> `f(2) # result = 5`{.r}
 </div>
 
 # 引数を追加する {#black-magick}
@@ -211,16 +211,16 @@ japanr2018::f
 japanr2018:::b
 ```
 
-## `b` を `a` と同じ長さの乱数にしたい {#randomize-b}
+## `b`{.r} を `a`{.r} と同じ長さの乱数にしたい {#randomize-b}
 
 ```{r randomize-b}
 f <- japanr2018::f
 formals(f)$b <- alist(b = runif(length(a)))$b
-f(1:10)
-f(1:10)
+f(1:3)
+f(1:4)
 ```
 
-## `+` じゃなくて `*` がいい {#want-product}
+## たし算じゃなくてかけ算がいい {#want-product}
 
 ```{r want-product}
 f <- japanr2018::f
@@ -239,18 +239,18 @@ f(1)
 japanr2018::g(1) # g = function(a) f(a)
 ```
 
-`AssignInNamespace("b", 2, getNamespace("japanr2018"))` 
+`assignInNamespace("b", 2, "japanr2018")`{.r} 
 
 していたら
 
-`japanr2018::g(1) == 3` 
+`japanr2018::g(1) == 3`{.r} 
 
 になっていた
 
 
-# 応用1 <br> ggplot2で密度分布の信頼区間を描写する {#stat-ci}
+# 応用1 <br> ggplot2で密度分布の信頼区間を描写 {#stat-ci}
 
-## `ggproto` で `StatCI` を作る {#ggproto}
+## `ggproto`{.r} で `StatCI`{.r} を定義 {#ggproto}
 
 ```{r statci-code, include = FALSE}
 (StatCI_code <- readLines("https://raw.githubusercontent.com/atusy/ggAtusy/8502c1bb4a493a7c6a63b8d8bb92e14c9b78f1d0/R/stat_ci.R")[c(28:55, 14:18)])
@@ -260,7 +260,7 @@ japanr2018::g(1) # g = function(a) f(a)
 
 ```
 
-## `ggplot2::stat_density` を <br> `stat_ci` に改造する {#stat-ci-goal}
+## `ggplot2::stat_density()`{.r} を <br> `stat_ci()`{.r} に改造 {#stat-ci-goal}
 
 ```{r #code-stat-density}
 ggplot2::stat_density # コピペ & 目sedは嫌だ
@@ -268,22 +268,21 @@ ggplot2::stat_density # コピペ & 目sedは嫌だ
 
 ## {#implement-stat-ci}
 
-`stat_density()` が呼び出す `StatDensity` を、 \
-`ggplot2::StatDensity` から、 \
-引数の `StatDensity = StatCI` に摩り替える。
+`stat_density()`{.r} が呼び出す `StatDensity`{.r} を、 \
+`ggplot2::StatDensity`{.r} から、引数の `StatDensity`{.r} に摩り替え
 
-
-
-```{r stat-ci, fig.height = 2}
+```{r stat-ci, fig.height = 1.5}
 library(ggplot2)
 stat_ci <- stat_density
-formals(stat_ci) <- c(formals(stat_ci), StatDensity = ggAtusy::StatCI)
+formals(stat_ci) <- c(
+  formals(stat_ci), 
+  StatDensity = ggAtusy::StatCI
+)
 ggplot(data.frame(x = rnorm(1e5)), aes(x)) +
-  geom_density() +
-  stat_ci()
+  geom_density() + stat_ci()
 ```
 
-[実際には `StatDensity` 引数を弄れないよう、もう一工夫した。](https://github.com/atusy/ggAtusy/blob/master/R/stat_ci.R)
+[実際には `StatDensity`{.r} 引数を弄れないよう、もう一工夫した。](https://github.com/atusy/ggAtusy/blob/master/R/stat_ci.R)
 
 ## Disclaimer
 
@@ -295,9 +294,9 @@ ggplot(data.frame(x = rnorm(1e5)), aes(x)) +
 [`bayseplot`](https://cran.r-project.org/web/packages/bayesplot/vignettes/plotting-mcmc-draws.html) 
 があります。
 
-# 応用2 <br> `skimr::inline_hist()` の <br /> ビン数を変更 {#modify-inline-hist}
+# 応用2 <br> `skimr::inline_hist()`{.r} の <br /> ビン数を変更 {#modify-inline-hist}
 
-## 内部変数 `optioins` を弄る {#modify-options-in-skimr}
+## 内部変数 `skimr:::optioins` を弄る {#modify-options-in-skimr}
 
 ```{r inline-hist-10}
 library(skimr)
@@ -313,19 +312,22 @@ inline_hist(iris$Petal.Length)
 [Inspired by ![niszet0](https://avatars3.githubusercontent.com/u/28832585?s=400&v=4){width=30px}](https://niszet.hatenablog.com/entry/2018/02/26/073000)
 </div>
 
-## 動的に `optioins` を弄る {#dynamic-options}
+## 動的に `optioins`{.r} を弄る {#dynamic-options}
 
-```{r inline-hist-any}
+```{r inline-hist-any, eval = FALSE}
 inline_hist <- skimr::inline_hist
 .options <- function(n) {
   options <- rlang::env_clone(skimr:::options)
   options$formats$character$width <- n
   options
 }
-formals(inline_hist)[c("n", "options")] = alist(n = 10, options = .options(n))
-inline_hist(iris$Petal.Length)
-inline_hist(iris$Petal.Length, 20)
-inline_hist(iris$Petal.Length, 30)
+formals(inline_hist)[c("n", "options")] <- 
+  alist(n = 10, options = .options(n))
+
+inline_hist(iris$Petal.Length)     
+# ▇▃▁▁▂▆▆▃▂▁
+inline_hist(iris$Petal.Length, 20) 
+# ▁▇▂▁▁▁▁▁▁▁▃▃▃▅▂▃▂▁▁▁
 ```
 
 
@@ -345,6 +347,6 @@ structure(1, class = "atusy")
 S3メソッドは最低でも、 \
 総称関数と同じ引数を持たなければならない
 
-`formals<-` を使えば総称関数の引数を丸々引き継げる
+`` `formals<-`() ``{.r} を使えば総称関数の引数を丸々引き継げる
 
 
