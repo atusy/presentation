@@ -547,7 +547,7 @@ atusy</h2>
 </ul></li>
 </ul></li>
 <li><code>blogdown</code> で <a href="https://atusy.github.io/blog/">blogしてます</a></li>
-<li><a href="https://twitter.com/Atsushi776">Atsushi776</a> on Twitter</li>
+<li>@<a href="https://twitter.com/Atsushi776">Atsushi776</a> on Twitter</li>
 </ul>
 </section>
 <section id="tweet-yuta-mona" class="slide level2">
@@ -570,16 +570,17 @@ atusy</h2>
 <h2>ラッパー関数を作る</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">f &lt;-<span class="st"> </span><span class="cf">function</span>(a) a <span class="op">+</span><span class="st"> </span><span class="dv">1</span> </a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">f_hex &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">hex =</span> <span class="st">&quot;f&quot;</span>) { <span class="co"># 引数名の変更と初期値の設定</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">  <span class="kw">strtoi</span>(hex, <span class="dv">16</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># 前処理</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="st">    </span><span class="kw">f</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="st">      </span><span class="kw">as.hexmode</span>() <span class="co"># 後処理</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">}</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">f_hex</span>(<span class="st">&quot;a&quot;</span>) <span class="co"># [1] &quot;b&quot;</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-3" data-line-number="3">f_hex &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="st">  </span><span class="cf">function</span>(<span class="dt">hex =</span> <span class="st">&quot;f&quot;</span>) { <span class="co"># 引数名変更 &amp; 初期値設定</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">    <span class="kw">strtoi</span>(hex, <span class="dv">16</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># 前処理</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="st">      </span><span class="kw">f</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="st">        </span><span class="kw">as.hexmode</span>() <span class="co"># 後処理</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">  }</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">f_hex</span>(<span class="st">&quot;a&quot;</span>) <span class="co"># [1] &quot;b&quot;</span></a></code></pre></div>
 </section><section id="assignInNamespace" class="slide level2">
 <h2>名前空間に殴り込む</h2>
-<p><code>assignInNamespace()</code></p>
+<p><code class="sourceCode r"><span class="kw">assignInNamespace</span>()</code></p>
 <ul>
 <li>メリット
 <ul>
@@ -622,11 +623,11 @@ atusy</h2>
 </table>
 </section><section id="goal" class="slide level2">
 <h2></h2>
-<h3 id="formals-"><code>formals</code> を弄って</h3>
-<h3 id="assigninnamespace-"><code>assignInNamespace()</code> せずに</h3>
+<h3 id="formals-"><code class="sourceCode r"><span class="kw">formals</span>()</code> を弄って</h3>
+<h3 id="assigninnamespace-"><code class="sourceCode r"><span class="kw">assignInNamespace</span>()</code> せずに</h3>
 <h3>内部変数も含めて挙動を弄ろう</h3>
 </section></section>
-<section><section id="japanr2018" class="title-slide slide level1"><h1><code>package:japanr2018</code></h1></section><section id="jr18-install" class="slide level2">
+<section><section id="japanr2018" class="title-slide slide level1"><h1><code class="sourceCode r">package<span class="op">:</span>japanr2018</code></h1></section><section id="jr18-install" class="slide level2">
 <h2>インストール &amp; 読み込み</h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install_github</span>(</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="st">&quot;atusy/presentation&quot;</span>,</a>
@@ -650,7 +651,7 @@ atusy</h2>
 <a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&#39; @export</span></a>
 <a class="sourceLine" id="cb3-13" data-line-number="13">g &lt;-<span class="st"> </span><span class="cf">function</span>(a) <span class="kw">f</span>(a)</a></code></pre></div>
 </section><section id="jr18-env" class="slide level2">
-<h2><code>namespace:japanr2018</code> に隔離</h2>
+<h2><code class="sourceCode r">namespace<span class="op">:</span>japanr2018</code> に隔離</h2>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">f</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># function(a) a + b</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co"># &lt;bytecode: 0x3e05f08&gt;</span></a>
@@ -664,16 +665,16 @@ atusy</h2>
 <a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co"># function(a) a + b</span></a>
 <a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co"># &lt;bytecode: 0x3e3d700&gt;</span></a>
 <a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co"># &lt;environment: namespace:japanr2018&gt;</span></a></code></pre></div>
-<p><code>japanr2018::f</code> は上書きされない</p>
+<p><code class="sourceCode r">japanr2018<span class="op">::</span>f</code> は上書きされない</p>
 </section></section>
 <section><section id="edit" class="title-slide slide level1"><h1>既存の引数を弄る</h1></section><section id="formals-of-f" class="slide level2">
-<h2><code>formals()</code> で関数の引数を確認する</h2>
+<h2><code class="sourceCode r"><span class="kw">formals</span>()</code> で関数の引数を確認する</h2>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">str</span>(<span class="kw">formals</span>(japanr2018<span class="op">::</span>f))</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co"># Dotted pair list of 1</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co"># $ a: symbol </span></a></code></pre></div>
 <p>ヘンなリストだけどリストのノリで弄れる。</p>
 </section><section id="assign-formals" class="slide level2">
-<h2>弄るには<code>formals&lt;-</code></h2>
+<h2>弄るには<code class="sourceCode r"><span class="st">`</span><span class="dt">formals&lt;-</span><span class="st">`</span></code></h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">f &lt;-<span class="st"> </span>japanr2018<span class="op">::</span>f</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">formals</span>(f) &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">a =</span> <span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">formals</span>(f)</a></code></pre></div>
@@ -682,27 +683,23 @@ atusy</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">f</span>()</a></code></pre></div>
 <pre><code>## [1] 2</code></pre>
 </section><section id="lazy-eval" class="slide level2">
-<h2><code>alist</code> を使うと遅延評価もできる</h2>
+<h2><code class="sourceCode r"><span class="kw">alist</span>()</code> を使うと遅延評価できる</h2>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">f &lt;-<span class="st"> </span>japanr2018<span class="op">::</span>f</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">formals</span>(f)<span class="op">$</span>a &lt;-<span class="st"> </span><span class="kw">alist</span>(<span class="dt">a =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>))<span class="op">$</span>a</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw">formals</span>(f)</a></code></pre></div>
-<pre><code>## $a
-## rnorm(10)</code></pre>
+<a class="sourceLine" id="cb10-2" data-line-number="2">(<span class="kw">formals</span>(f)<span class="op">$</span>a &lt;-<span class="st"> </span><span class="kw">alist</span>(<span class="dt">a =</span> <span class="kw">rnorm</span>(<span class="dv">1</span>))<span class="op">$</span>a)</a></code></pre></div>
+<pre><code>## rnorm(1)</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">f</span>()</a></code></pre></div>
-<pre><code>##  [1]  3.4395214  0.6498110  0.9547272  1.7669728  1.0292134  0.9275985
-##  [7]  1.5212524  1.5175191 -0.3585663  1.1740386</code></pre>
+<pre><code>## [1] 3.439521</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">f</span>()</a></code></pre></div>
-<pre><code>##  [1]  2.42596047  0.48230713  0.27796705 -0.59685540  0.97266890
-##  [6]  0.35156248  0.60173640 -0.40381470  0.03599102 -0.50969400</code></pre>
+<pre><code>## [1] 0.649811</code></pre>
 </section><section id="help-formals" class="slide level2">
-<h2><code>?formals</code> にも載ってる</h2>
+<h2><code class="sourceCode r">?formals</code> にも載ってるアブナい技</h2>
 <div style="text-align:left">
 <blockquote>
-<p>You can overwrite the formal arguments of a function (though this is advanced, <strong>dangerous</strong> coding).<br />
-<code>f &lt;- function(x) a + b</code><br />
-<code>formals(f) &lt;- alist(a = , b = 3)</code><br />
-<code>f    # function(a, b = 3) a + b</code><br />
-<code>f(2) # result = 5</code></p>
+<p>You can overwrite the formal arguments of a function (though this is advanced, dangerous coding).<br />
+<code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(x) a <span class="op">+</span><span class="st"> </span>b</code><br />
+<code class="sourceCode r"><span class="kw">formals</span>(f) &lt;-<span class="st"> </span><span class="kw">alist</span>(<span class="dt">a =</span> , <span class="dt">b =</span> <span class="dv">3</span>)</code><br />
+<code class="sourceCode r">f    <span class="co"># function(a, b = 3) a + b</span></code><br />
+<code class="sourceCode r"><span class="kw">f</span>(<span class="dv">2</span>) <span class="co"># result = 5</span></code></p>
 </blockquote>
 </div>
 </section></section>
@@ -715,17 +712,15 @@ atusy</h2>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">japanr2018<span class="op">:::</span>b</a></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 </section><section id="randomize-b" class="slide level2">
-<h2><code>b</code> を <code>a</code> と同じ長さの乱数にしたい</h2>
+<h2><code class="sourceCode r">b</code> を <code class="sourceCode r">a</code> と同じ長さの乱数にしたい</h2>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">f &lt;-<span class="st"> </span>japanr2018<span class="op">::</span>f</a>
 <a class="sourceLine" id="cb20-2" data-line-number="2"><span class="kw">formals</span>(f)<span class="op">$</span>b &lt;-<span class="st"> </span><span class="kw">alist</span>(<span class="dt">b =</span> <span class="kw">runif</span>(<span class="kw">length</span>(a)))<span class="op">$</span>b</a>
-<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="kw">f</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)</a></code></pre></div>
-<pre><code>##  [1]  1.438568  2.591437  3.015478  4.994207  5.425113  6.596890  7.074767
-##  [8]  8.878723  9.914895 10.383241</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">f</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)</a></code></pre></div>
-<pre><code>##  [1]  1.063520  2.339287  3.165534  4.896620  5.861066  6.631900  7.339700
-##  [8]  8.582952  9.425303 10.890818</code></pre>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="kw">f</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)</a></code></pre></div>
+<pre><code>## [1] 1.438568 2.591437 3.015478</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">f</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>)</a></code></pre></div>
+<pre><code>## [1] 1.994207 2.425113 3.596890 4.074767</code></pre>
 </section><section id="want-product" class="slide level2">
-<h2><code>+</code> じゃなくて <code>*</code> がいい</h2>
+<h2>たし算じゃなくてかけ算がいい</h2>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">f &lt;-<span class="st"> </span>japanr2018<span class="op">::</span>f</a>
 <a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw">formals</span>(f)<span class="op">$</span><span class="st">`</span><span class="dt">+</span><span class="st">`</span> &lt;-<span class="st"> `</span><span class="dt">*</span><span class="st">`</span></a>
 <a class="sourceLine" id="cb24-3" data-line-number="3"><span class="kw">f</span>(<span class="dv">1</span>)</a></code></pre></div>
@@ -737,13 +732,13 @@ atusy</h2>
 <h2><code>japanr2018::g</code> は影響を受けない</h2>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">japanr2018<span class="op">::</span><span class="kw">g</span>(<span class="dv">1</span>) <span class="co"># g = function(a) f(a)</span></a></code></pre></div>
 <pre><code>## [1] 2</code></pre>
-<p><code>AssignInNamespace(&quot;b&quot;, 2, getNamespace(&quot;japanr2018&quot;))</code></p>
+<p><code class="sourceCode r"><span class="kw">assignInNamespace</span>(<span class="st">&quot;b&quot;</span>, <span class="dv">2</span>, <span class="st">&quot;japanr2018&quot;</span>)</code></p>
 <p>していたら</p>
-<p><code>japanr2018::g(1) == 3</code></p>
+<p><code class="sourceCode r">japanr2018<span class="op">::</span><span class="kw">g</span>(<span class="dv">1</span>) <span class="op">==</span><span class="st"> </span><span class="dv">3</span></code></p>
 <p>になっていた</p>
 </section></section>
-<section><section id="stat-ci" class="title-slide slide level1"><h1>応用1 <br> ggplot2で密度分布の信頼区間を描写する</h1></section><section id="ggproto" class="slide level2">
-<h2><code>ggproto</code> で <code>StatCI</code> を作る</h2>
+<section><section id="stat-ci" class="title-slide slide level1"><h1>応用1 <br> ggplot2で密度分布の信頼区間を描写</h1></section><section id="ggproto" class="slide level2">
+<h2><code class="sourceCode r">ggproto</code> で <code class="sourceCode r">StatCI</code> を定義</h2>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">StatCI &lt;-<span class="st"> </span><span class="kw">ggproto</span>(</a>
 <a class="sourceLine" id="cb28-2" data-line-number="2">  <span class="st">&quot;StatCI&quot;</span>,</a>
 <a class="sourceLine" id="cb28-3" data-line-number="3">  ggplot2<span class="op">::</span>StatDensity,</a>
@@ -778,7 +773,7 @@ atusy</h2>
 <a class="sourceLine" id="cb28-32" data-line-number="32">  <span class="kw">colSums</span>(neighbors <span class="op">*</span><span class="st"> </span><span class="kw">rev</span>(<span class="kw">abs</span>((lim <span class="op">-</span><span class="st"> </span>neighbors<span class="op">$</span>x) <span class="op">/</span><span class="st"> </span><span class="kw">diff</span>(neighbors<span class="op">$</span>x))))</a>
 <a class="sourceLine" id="cb28-33" data-line-number="33">}</a></code></pre></div>
 </section><section id="stat-ci-goal" class="slide level2">
-<h2><code>ggplot2::stat_density</code> を <br> <code>stat_ci</code> に改造する</h2>
+<h2><code class="sourceCode r">ggplot2<span class="op">::</span><span class="kw">stat_density</span>()</code> を <br> <code class="sourceCode r"><span class="kw">stat_ci</span>()</code> に改造</h2>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">ggplot2<span class="op">::</span>stat_density <span class="co"># コピペ &amp; 目sedは嫌だ</span></a></code></pre></div>
 <pre><code>## function (mapping = NULL, data = NULL, geom = &quot;area&quot;, position = &quot;stack&quot;, 
 ##     ..., bw = &quot;nrd0&quot;, adjust = 1, kernel = &quot;gaussian&quot;, n = 512, 
@@ -794,24 +789,25 @@ atusy</h2>
 ## &lt;environment: namespace:ggplot2&gt;</code></pre>
 </section><section id="implement-stat-ci" class="slide level2">
 <h2></h2>
-<p><code>stat_density()</code> が呼び出す <code>StatDensity</code> を、<br />
-<code>ggplot2::StatDensity</code> から、<br />
-引数の <code>StatDensity = StatCI</code> に摩り替える。</p>
+<p><code class="sourceCode r"><span class="kw">stat_density</span>()</code> が呼び出す <code class="sourceCode r">StatDensity</code> を、<br />
+<code class="sourceCode r">ggplot2<span class="op">::</span>StatDensity</code> から、引数の <code class="sourceCode r">StatDensity</code> に摩り替え</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
 <a class="sourceLine" id="cb31-2" data-line-number="2">stat_ci &lt;-<span class="st"> </span>stat_density</a>
-<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="kw">formals</span>(stat_ci) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">formals</span>(stat_ci), <span class="dt">StatDensity =</span> ggAtusy<span class="op">::</span>StatCI)</a>
-<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="kw">ggplot</span>(<span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="fl">1e5</span>)), <span class="kw">aes</span>(x)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="st">  </span><span class="kw">stat_ci</span>()</a></code></pre></div>
+<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="kw">formals</span>(stat_ci) &lt;-<span class="st"> </span><span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb31-4" data-line-number="4">  <span class="kw">formals</span>(stat_ci), </a>
+<a class="sourceLine" id="cb31-5" data-line-number="5">  <span class="dt">StatDensity =</span> ggAtusy<span class="op">::</span>StatCI</a>
+<a class="sourceLine" id="cb31-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb31-7" data-line-number="7"><span class="kw">ggplot</span>(<span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="fl">1e5</span>)), <span class="kw">aes</span>(x)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb31-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span><span class="kw">stat_ci</span>()</a></code></pre></div>
 <p><img src="formals-for-black-magicians_files/figure-revealjs/stat-ci-1.png" width="768" /></p>
-<p><a href="https://github.com/atusy/ggAtusy/blob/master/R/stat_ci.R">実際には <code>StatDensity</code> 引数を弄れないよう、もう一工夫した。</a></p>
+<p><a href="https://github.com/atusy/ggAtusy/blob/master/R/stat_ci.R">実際には <code class="sourceCode r">StatDensity</code> 引数を弄れないよう、もう一工夫した。</a></p>
 </section><section id="disclaimer" class="slide level2">
 <h2>Disclaimer</h2>
 <p>遊び半分の実装です。</p>
 <p>実用的には <a href="https://cran.r-project.org/web/packages/ggdistribute/vignettes/geom_posterior.html"><code>ggdistribute</code></a> や <a href="https://cran.r-project.org/web/packages/bayesplot/vignettes/plotting-mcmc-draws.html"><code>bayseplot</code></a> があります。</p>
 </section></section>
-<section><section id="modify-inline-hist" class="title-slide slide level1"><h1>応用2 <br> <code>skimr::inline_hist()</code> の <br /> ビン数を変更</h1></section><section id="modify-options-in-skimr" class="slide level2">
-<h2>内部変数 <code>optioins</code> を弄る</h2>
+<section><section id="modify-inline-hist" class="title-slide slide level1"><h1>応用2 <br> <code class="sourceCode r">skimr<span class="op">::</span><span class="kw">inline_hist</span>()</code> の <br /> ビン数を変更</h1></section><section id="modify-options-in-skimr" class="slide level2">
+<h2>内部変数 <code>skimr:::optioins</code> を弄る</h2>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">library</span>(skimr)</a>
 <a class="sourceLine" id="cb32-2" data-line-number="2">skimr<span class="op">::</span><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length)</a></code></pre></div>
 <pre><code>## ▇▁▁▂▅▅▃▁</code></pre>
@@ -825,36 +821,36 @@ atusy</h2>
 <p><a href="https://niszet.hatenablog.com/entry/2018/02/26/073000">Inspired by <img data-src="https://avatars3.githubusercontent.com/u/28832585?s=400&amp;v=4" alt="niszet0" width="30" /></a></p>
 </div>
 </section><section id="dynamic-options" class="slide level2">
-<h2>動的に <code>optioins</code> を弄る</h2>
+<h2>動的に <code class="sourceCode r">optioins</code> を弄る</h2>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">inline_hist &lt;-<span class="st"> </span>skimr<span class="op">::</span>inline_hist</a>
 <a class="sourceLine" id="cb36-2" data-line-number="2">.options &lt;-<span class="st"> </span><span class="cf">function</span>(n) {</a>
 <a class="sourceLine" id="cb36-3" data-line-number="3">  options &lt;-<span class="st"> </span>rlang<span class="op">::</span><span class="kw">env_clone</span>(skimr<span class="op">:::</span>options)</a>
 <a class="sourceLine" id="cb36-4" data-line-number="4">  options<span class="op">$</span>formats<span class="op">$</span>character<span class="op">$</span>width &lt;-<span class="st"> </span>n</a>
 <a class="sourceLine" id="cb36-5" data-line-number="5">  options</a>
 <a class="sourceLine" id="cb36-6" data-line-number="6">}</a>
-<a class="sourceLine" id="cb36-7" data-line-number="7"><span class="kw">formals</span>(inline_hist)[<span class="kw">c</span>(<span class="st">&quot;n&quot;</span>, <span class="st">&quot;options&quot;</span>)] =<span class="st"> </span><span class="kw">alist</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">options =</span> <span class="kw">.options</span>(n))</a>
-<a class="sourceLine" id="cb36-8" data-line-number="8"><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length)</a></code></pre></div>
-<pre><code>## ▇▃▁▁▂▆▆▃▂▁</code></pre>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length, <span class="dv">20</span>)</a></code></pre></div>
-<pre><code>## ▁▇▂▁▁▁▁▁▁▁▃▃▃▅▂▃▂▁▁▁</code></pre>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length, <span class="dv">30</span>)</a></code></pre></div>
-<pre><code>## ▁▃▇▃▁▁▁▁▁▁▁▁▁▁▁▂▂▃▂▃▃▁▂▃▂▂▁▁▁▁</code></pre>
+<a class="sourceLine" id="cb36-7" data-line-number="7"><span class="kw">formals</span>(inline_hist)[<span class="kw">c</span>(<span class="st">&quot;n&quot;</span>, <span class="st">&quot;options&quot;</span>)] &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb36-8" data-line-number="8"><span class="st">  </span><span class="kw">alist</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">options =</span> <span class="kw">.options</span>(n))</a>
+<a class="sourceLine" id="cb36-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb36-10" data-line-number="10"><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length)     </a>
+<a class="sourceLine" id="cb36-11" data-line-number="11"><span class="co"># ▇▃▁▁▂▆▆▃▂▁</span></a>
+<a class="sourceLine" id="cb36-12" data-line-number="12"><span class="kw">inline_hist</span>(iris<span class="op">$</span>Petal.Length, <span class="dv">20</span>) </a>
+<a class="sourceLine" id="cb36-13" data-line-number="13"><span class="co"># ▁▇▂▁▁▁▁▁▁▁▃▃▃▅▂▃▂▁▁▁</span></a></code></pre></div>
 </section></section>
 <section><section id="lazy-programming" class="title-slide slide level1"><h1>応用3 <br /> 関数を手抜きして作る</h1></section><section id="easy-s3" class="slide level2">
 <h2>S3メソッドを手抜きして作る</h2>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">print.atusy &lt;-<span class="st"> </span><span class="cf">function</span>() {</a>
-<a class="sourceLine" id="cb42-2" data-line-number="2">  <span class="kw">cat</span>(<span class="st">&quot;Printing atusy class object.</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb42-3" data-line-number="3">  <span class="kw">NextMethod</span>()</a>
-<a class="sourceLine" id="cb42-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb42-5" data-line-number="5"><span class="kw">formals</span>(print.atusy) &lt;-<span class="st"> </span><span class="kw">formals</span>(print)</a>
-<a class="sourceLine" id="cb42-6" data-line-number="6"><span class="kw">structure</span>(<span class="dv">1</span>, <span class="dt">class =</span> <span class="st">&quot;atusy&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">print.atusy &lt;-<span class="st"> </span><span class="cf">function</span>() {</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">  <span class="kw">cat</span>(<span class="st">&quot;Printing atusy class object.</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb37-3" data-line-number="3">  <span class="kw">NextMethod</span>()</a>
+<a class="sourceLine" id="cb37-4" data-line-number="4">}</a>
+<a class="sourceLine" id="cb37-5" data-line-number="5"><span class="kw">formals</span>(print.atusy) &lt;-<span class="st"> </span><span class="kw">formals</span>(print)</a>
+<a class="sourceLine" id="cb37-6" data-line-number="6"><span class="kw">structure</span>(<span class="dv">1</span>, <span class="dt">class =</span> <span class="st">&quot;atusy&quot;</span>)</a></code></pre></div>
 <pre><code>## Printing atusy class object.
 ## [1] 1
 ## attr(,&quot;class&quot;)
 ## [1] &quot;atusy&quot;</code></pre>
 <p>S3メソッドは最低でも、<br />
 総称関数と同じ引数を持たなければならない</p>
-<p><code>formals&lt;-</code> を使えば総称関数の引数を丸々引き継げる</p>
+<p><code class="sourceCode r"><span class="st">`</span><span class="dt">formals&lt;-</span><span class="st">`</span>()</code> を使えば総称関数の引数を丸々引き継げる</p>
 </section></section>
     </div>
   </div>
