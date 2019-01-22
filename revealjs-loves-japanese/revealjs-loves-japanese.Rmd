@@ -37,8 +37,7 @@ https://github.com/rstudio/rmarkdown/blob/master/NEWS.md#rmarkdown-16
 
 ## これからの revealjs は**ちゃんと進む**
 
-と言っても revealjs は2年前から更新されてないはずなので，
-多分，pandoc か rmarkdown のおかげですね．
+と言っても revealjs は2年前から更新されてないので何が変わったのやら？ pandoc？
 
 ```{r, message = FALSE}
 library(dplyr)
