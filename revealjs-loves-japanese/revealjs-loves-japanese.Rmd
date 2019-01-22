@@ -1,0 +1,71 @@
+---
+title: |
+  revealjsとかblogdownで \
+  日本語見出しが \
+  簡単に使えるようになったよ
+output: 
+  revealjs::revealjs_presentation:
+    center: yes
+---
+
+## 今までの rmarkdown は
+
+- 和文見出しがあると
+    - blogdown::html_page で toc にリンクがつかなかったり
+- 和英混在する見出しで，英字部分の重複するものがあると
+    - blogdown::html_page は toc は生成するも \
+     「あa」と「いa」が共に「あa」にリンクされたり
+    - revealjs::revealjs_presentation の \
+      スライド遷移に異常が発生したり \
+      (https://kazutan.github.io/SappoRoR6/rmd_slide.html#/17/1)
+      
+した．
+
+## これからの rmarkdown は
+
+和英混在だろうと重複があろうと問題なし？!
+
+## rmarkdown は日本語 TOC に対応済み？
+
+### Version 1.6 (2017/6/15)
+
+> Fixed an issue where headers with non-ASCII text would not be linked to correctly in the table of contents.
+
+https://github.com/rstudio/rmarkdown/blob/master/NEWS.md#rmarkdown-16
+
+和英混合は例外だったのかな？
+
+## これからの revealjs は**ちゃんと進む**
+
+と言っても revealjs は2年前から更新されてないはずなので，
+多分，pandoc か rmarkdown のおかげですね．
+
+```{r, message = FALSE}
+library(dplyr)
+installed.packages() %>%
+  as.data.frame %>%
+  filter(Package %in% c("knitr", "rmarkdown", "revealjs")) %>%
+  add_row(Package = "pandoc", Version = as.character(rmarkdown::pandoc_version())) %>%
+  transmute(`Packageとか` = Package, Version) %>%
+  gt::gt()
+```
+
+# テスト
+
+## テストA
+
+## テストB
+
+# Test
+
+## Test
+
+## Test
+
+# テスト成功
+
+## テスト成功
+
+## テスト成功
+
+## Enjoy!!
