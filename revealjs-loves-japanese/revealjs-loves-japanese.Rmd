@@ -50,17 +50,17 @@ installed.packages() %>%
   gt::gt()
 ```
 
-# テスト
+# テストA
 
 ## テストA
 
-## テストB
+## てすとA
 
-# Test
+# Test B
 
-## Test
+## Test B
 
-## Test
+## Test B
 
 # テスト成功
 
@@ -68,4 +68,8 @@ installed.packages() %>%
 
 ## テスト成功
 
-## Enjoy!!
+# Enjoy!!
+
+## ソースの Rmd ファイルは以下から
+
+https://github.com/atusy/presentation/blob/master/revealjs-loves-japanese/revealjs-loves-japanese.Rmd
