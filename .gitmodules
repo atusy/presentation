@@ -1,0 +1,9 @@
+[submodule "20181201-japanr2018-formals-for-blackmagicians"]
+	path = 20181201-japanr2018-formals-for-blackmagicians
+	url = git@github.com:atusy/20181201-japanr2018-formals-for-blackmagicians.git
+[submodule "20181020-tokyor073-multi-ggplot2"]
+	path = 20181020-tokyor073-multi-ggplot2
+	url = git@github.com:atusy/20181020-tokyor073-multi-ggplot2.git
+[submodule "20190122-revealjs-loves-japanese"]
+	path = 20190122-revealjs-loves-japanese
+	url = git@github.com:atusy/20190122-revealjs-loves-japanese.git
