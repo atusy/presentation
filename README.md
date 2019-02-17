@@ -14,4 +14,4 @@
 
 ### 2018-10-20 Tokyo.R 73
 
-[ggplot2で図を並べる~facetごり押した私とpatchworkとの出会い~](https://atusy.github.io/presentation/tokyor073/tokyor073-multi-ggplot2.html#/)
+[ggplot2で図を並べる〜facetごり押した私とpatchworkとの出会い〜](https://atusy.github.io/presentation/tokyor073/tokyor073-multi-ggplot2.html#/)
