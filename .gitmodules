@@ -7,3 +7,6 @@
 [submodule "20190122-revealjs-loves-japanese"]
 	path = 20190122-revealjs-loves-japanese
 	url = git://github.com/atusy/20190122-revealjs-loves-japanese.git
+[submodule "20190525-tokyor76-felp"]
+	path = 20190525-tokyor76-felp
+	url = git://github.com/atusy/20190525-tokyor76-felp
