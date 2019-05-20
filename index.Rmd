@@ -1,0 +1,17 @@
+---
+output: html_document
+---
+
+```{r setup, include = FALSE}
+pacman::p_load_gh("atusy/atusyverse")
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{r README, results="asis"}
+readLines("README.md") %>%
+  str_replace_all("https://presentation.atusy.net/", "./") %>%
+  cat(sep="\n")
+```
+
+
